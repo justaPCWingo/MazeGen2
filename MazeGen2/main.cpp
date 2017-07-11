@@ -15,7 +15,8 @@ void PrintMaze(MazeBuilder & b);
 
 int main(int argc, const char * argv[]) {
 
-    MazeBuilder builder(8,8);
+    MazeBuilder builder(16,16);
+    //builder.SetDebugPrint(PrintMaze);
     builder.GenerateMaze();
     PrintMaze(builder);
     return 0;

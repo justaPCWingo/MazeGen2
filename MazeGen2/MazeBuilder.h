@@ -10,9 +10,16 @@
 
 #include<random>
 #include<vector>
+#include<list>
 
 typedef unsigned int MInd;
 typedef std::vector<bool> ActVec;
+typedef std::pair<MInd,MInd> MIndPair;
+
+typedef std::list<MInd> PathList;
+
+class MazeBuilder;
+using DBG_MazePrint=void(*)(MazeBuilder &);
 
 class MazeBuilder
 {
@@ -42,9 +49,13 @@ public:
     MInd GetRowCount() const;
     MInd GetColCount() const;
     
+    PathList PathToFinish();
+    
+    void SetDebugPrint(DBG_MazePrint DbgFunc);
 protected:
     
     static const MInd NO_VAL;
+    static const MIndPair NO_PAIR_VAL;
     static std::default_random_engine s_randGen;
     
     MInd _rows;
@@ -56,9 +67,12 @@ protected:
     ActVec _vertWalls;
     ActVec _cellHits;
     
+    DBG_MazePrint _DbgPrint;
+    
     //manipulations
     void SealMazeEdges();
     void OpenEdge(MInd cInd);
+    void ClearVisits();
     
     //lookup utils
     MInd EdgeNumToIndex(MInd eInd) const;
@@ -72,8 +86,18 @@ protected:
     inline bool CanRight(MInd currInd) const;
     inline bool CanUp(MInd currInd) const;
     inline bool CanDown(MInd currInd) const;
-    inline bool CellsAreAdjacent(MInd c1, MInd c2) const;
+    DIRECTIONS CellsAreAdjacent(MInd c1, MInd c2) const;
+    void SetRandomCellWall(MInd cInd, bool value);
+    bool FindFinish(MInd cInd,PathList & path);
+    void MarkAccessibleCells();
+    void MarkAccessibleCells(MInd currInd);
+    PathList GetUnvisited();
 
+    MIndPair FindFirstLoop(MInd cInd,MInd lastVisited=NO_VAL);
+    MIndPair FindFirstLoop();
+    
+    static MInd RandomCellFromList(const PathList & pl);
+    
 };
 
 // inlines
@@ -122,7 +146,3 @@ bool MazeBuilder::CanDown(MInd currInd) const
     return _horizWalls[currInd+_cols];
 }
 
-bool MazeBuilder::CellsAreAdjacent(MInd c1, MInd c2) const
-{
-    return c1==c2-1 || c1==c2+1 || c1==c2+_cols || c1==c2-_cols;
-}
