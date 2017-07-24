@@ -7,8 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		173D224F1F1C347500BAE537 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173D224E1F1C347500BAE537 /* AppDelegate.mm */; };
+		173D22521F1C347500BAE537 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 173D22511F1C347500BAE537 /* main.m */; };
+		173D22551F1C347500BAE537 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173D22541F1C347500BAE537 /* ViewController.mm */; };
+		173D22571F1C347500BAE537 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 173D22561F1C347500BAE537 /* Assets.xcassets */; };
+		173D225A1F1C347500BAE537 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 173D22581F1C347500BAE537 /* Main.storyboard */; };
+		173D22611F1C348D00BAE537 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 173D22601F1C348D00BAE537 /* OpenGL.framework */; };
+		173D22641F1C370A00BAE537 /* MGOpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173D22631F1C370A00BAE537 /* MGOpenGLView.mm */; };
 		17C389E21F1180AD00D3C1D0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C389E11F1180AD00D3C1D0 /* main.cpp */; };
 		17C389EA1F11814F00D3C1D0 /* MazeBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C389E81F11814F00D3C1D0 /* MazeBuilder.cpp */; };
+		17ECDAB71F254EA4002E04C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 173D225B1F1C347500BAE537 /* Assets.xcassets */; };
+		17ECDAB81F254F6F002E04C3 /* MazeBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C389E81F11814F00D3C1D0 /* MazeBuilder.cpp */; };
+		17ECDABC1F255080002E04C3 /* ShaderMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17ECDABA1F255080002E04C3 /* ShaderMgr.cpp */; };
+		17ECDAC31F25537B002E04C3 /* passThru.frag in Resources */ = {isa = PBXBuildFile; fileRef = 17ECDAC11F25537B002E04C3 /* passThru.frag */; };
+		17ECDAC41F25537B002E04C3 /* passThru.vert in Resources */ = {isa = PBXBuildFile; fileRef = 17ECDAC21F25537B002E04C3 /* passThru.vert */; };
+		17ECDAC71F2553C7002E04C3 /* passThru.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDAC11F25537B002E04C3 /* passThru.frag */; };
+		17ECDAC81F2553C7002E04C3 /* passThru.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDAC21F25537B002E04C3 /* passThru.vert */; };
+		17ECDACA1F256487002E04C3 /* wall.geom in Resources */ = {isa = PBXBuildFile; fileRef = 17ECDAC91F256487002E04C3 /* wall.geom */; };
+		17ECDACC1F2565BE002E04C3 /* wall.vert in Resources */ = {isa = PBXBuildFile; fileRef = 17ECDACB1F2565BE002E04C3 /* wall.vert */; };
+		17ECDACE1F256F44002E04C3 /* wall.frag in Resources */ = {isa = PBXBuildFile; fileRef = 17ECDACD1F256F44002E04C3 /* wall.frag */; };
+		17ECDACF1F256F8F002E04C3 /* wall.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDAC91F256487002E04C3 /* wall.geom */; };
+		17ECDAD01F256F8F002E04C3 /* wall.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDACB1F2565BE002E04C3 /* wall.vert */; };
+		17ECDAD11F256F8F002E04C3 /* wall.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDACD1F256F44002E04C3 /* wall.frag */; };
+		17ECDAD41F25738E002E04C3 /* VisMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17ECDAD31F25738E002E04C3 /* VisMgr.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -21,16 +42,60 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		17ECDAC61F2553A9002E04C3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = shaders;
+			dstSubfolderSpec = 16;
+			files = (
+				17ECDACF1F256F8F002E04C3 /* wall.geom in CopyFiles */,
+				17ECDAD01F256F8F002E04C3 /* wall.vert in CopyFiles */,
+				17ECDAD11F256F8F002E04C3 /* wall.frag in CopyFiles */,
+				17ECDAC71F2553C7002E04C3 /* passThru.frag in CopyFiles */,
+				17ECDAC81F2553C7002E04C3 /* passThru.vert in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		173D224B1F1C347500BAE537 /* MG2_Visualization.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MG2_Visualization.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		173D224D1F1C347500BAE537 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		173D224E1F1C347500BAE537 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		173D22511F1C347500BAE537 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		173D22531F1C347500BAE537 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		173D22541F1C347500BAE537 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		173D22561F1C347500BAE537 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		173D22591F1C347500BAE537 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		173D225B1F1C347500BAE537 /* Assets.xcassets */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		173D22601F1C348D00BAE537 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		173D22621F1C370A00BAE537 /* MGOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGOpenGLView.h; sourceTree = "<group>"; };
+		173D22631F1C370A00BAE537 /* MGOpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MGOpenGLView.mm; sourceTree = "<group>"; };
 		17C389DE1F1180AD00D3C1D0 /* MazeGen2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MazeGen2; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C389E11F1180AD00D3C1D0 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		17C389E81F11814F00D3C1D0 /* MazeBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MazeBuilder.cpp; sourceTree = "<group>"; };
 		17C389E91F11814F00D3C1D0 /* MazeBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeBuilder.h; sourceTree = "<group>"; };
+		17ECDAB91F255080002E04C3 /* GLErrStream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GLErrStream.hpp; path = ../GLErrStream.hpp; sourceTree = "<group>"; };
+		17ECDABA1F255080002E04C3 /* ShaderMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderMgr.cpp; path = ../ShaderMgr.cpp; sourceTree = "<group>"; };
+		17ECDABB1F255080002E04C3 /* ShaderMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderMgr.h; path = ../ShaderMgr.h; sourceTree = "<group>"; };
+		17ECDAC11F25537B002E04C3 /* passThru.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = passThru.frag; path = VisualizationCode/shaders/passThru.frag; sourceTree = SOURCE_ROOT; };
+		17ECDAC21F25537B002E04C3 /* passThru.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = passThru.vert; path = VisualizationCode/shaders/passThru.vert; sourceTree = SOURCE_ROOT; };
+		17ECDAC91F256487002E04C3 /* wall.geom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = wall.geom; sourceTree = "<group>"; };
+		17ECDACB1F2565BE002E04C3 /* wall.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = wall.vert; sourceTree = "<group>"; };
+		17ECDACD1F256F44002E04C3 /* wall.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = wall.frag; sourceTree = "<group>"; };
+		17ECDAD21F25736C002E04C3 /* VisMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisMgr.h; path = ../VisMgr.h; sourceTree = "<group>"; };
+		17ECDAD31F25738E002E04C3 /* VisMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisMgr.cpp; path = ../VisMgr.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		173D22481F1C347500BAE537 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				173D22611F1C348D00BAE537 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		17C389DB1F1180AD00D3C1D0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -41,11 +106,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		173D224C1F1C347500BAE537 /* MG2_Visualization */ = {
+			isa = PBXGroup;
+			children = (
+				17ECDAC51F255389002E04C3 /* shaders */,
+				17ECDAB91F255080002E04C3 /* GLErrStream.hpp */,
+				17ECDABA1F255080002E04C3 /* ShaderMgr.cpp */,
+				17ECDABB1F255080002E04C3 /* ShaderMgr.h */,
+				173D224D1F1C347500BAE537 /* AppDelegate.h */,
+				173D224E1F1C347500BAE537 /* AppDelegate.mm */,
+				173D22531F1C347500BAE537 /* ViewController.h */,
+				173D22541F1C347500BAE537 /* ViewController.mm */,
+				173D22561F1C347500BAE537 /* Assets.xcassets */,
+				173D22581F1C347500BAE537 /* Main.storyboard */,
+				173D225B1F1C347500BAE537 /* Assets.xcassets */,
+				173D22501F1C347500BAE537 /* Supporting Files */,
+				173D22621F1C370A00BAE537 /* MGOpenGLView.h */,
+				173D22631F1C370A00BAE537 /* MGOpenGLView.mm */,
+				17ECDAD21F25736C002E04C3 /* VisMgr.h */,
+				17ECDAD31F25738E002E04C3 /* VisMgr.cpp */,
+			);
+			name = MG2_Visualization;
+			path = VisualizationCode/MacOS_cocoa;
+			sourceTree = "<group>";
+		};
+		173D22501F1C347500BAE537 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				173D22511F1C347500BAE537 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		173D225F1F1C348D00BAE537 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				173D22601F1C348D00BAE537 /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		17C389D51F1180AD00D3C1D0 = {
 			isa = PBXGroup;
 			children = (
 				17C389E01F1180AD00D3C1D0 /* MazeGen2 */,
+				173D224C1F1C347500BAE537 /* MG2_Visualization */,
 				17C389DF1F1180AD00D3C1D0 /* Products */,
+				173D225F1F1C348D00BAE537 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -53,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				17C389DE1F1180AD00D3C1D0 /* MazeGen2 */,
+				173D224B1F1C347500BAE537 /* MG2_Visualization.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,9 +175,39 @@
 			path = MazeGen2;
 			sourceTree = "<group>";
 		};
+		17ECDAC51F255389002E04C3 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				17ECDAC11F25537B002E04C3 /* passThru.frag */,
+				17ECDAC21F25537B002E04C3 /* passThru.vert */,
+				17ECDAC91F256487002E04C3 /* wall.geom */,
+				17ECDACB1F2565BE002E04C3 /* wall.vert */,
+				17ECDACD1F256F44002E04C3 /* wall.frag */,
+			);
+			name = shaders;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		173D224A1F1C347500BAE537 /* MG2_Visualization */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 173D225E1F1C347500BAE537 /* Build configuration list for PBXNativeTarget "MG2_Visualization" */;
+			buildPhases = (
+				173D22471F1C347500BAE537 /* Sources */,
+				173D22481F1C347500BAE537 /* Frameworks */,
+				173D22491F1C347500BAE537 /* Resources */,
+				17ECDAC61F2553A9002E04C3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MG2_Visualization;
+			productName = MG2_Visualization;
+			productReference = 173D224B1F1C347500BAE537 /* MG2_Visualization.app */;
+			productType = "com.apple.product-type.application";
+		};
 		17C389DD1F1180AD00D3C1D0 /* MazeGen2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 17C389E51F1180AD00D3C1D0 /* Build configuration list for PBXNativeTarget "MazeGen2" */;
@@ -96,6 +234,10 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Wingo;
 				TargetAttributes = {
+					173D224A1F1C347500BAE537 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
 					17C389DD1F1180AD00D3C1D0 = {
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
@@ -108,6 +250,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 17C389D51F1180AD00D3C1D0;
 			productRefGroup = 17C389DF1F1180AD00D3C1D0 /* Products */;
@@ -115,11 +258,44 @@
 			projectRoot = "";
 			targets = (
 				17C389DD1F1180AD00D3C1D0 /* MazeGen2 */,
+				173D224A1F1C347500BAE537 /* MG2_Visualization */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		173D22491F1C347500BAE537 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17ECDAC41F25537B002E04C3 /* passThru.vert in Resources */,
+				17ECDAB71F254EA4002E04C3 /* Assets.xcassets in Resources */,
+				17ECDAC31F25537B002E04C3 /* passThru.frag in Resources */,
+				173D22571F1C347500BAE537 /* Assets.xcassets in Resources */,
+				17ECDACE1F256F44002E04C3 /* wall.frag in Resources */,
+				17ECDACC1F2565BE002E04C3 /* wall.vert in Resources */,
+				173D225A1F1C347500BAE537 /* Main.storyboard in Resources */,
+				17ECDACA1F256487002E04C3 /* wall.geom in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		173D22471F1C347500BAE537 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17ECDAB81F254F6F002E04C3 /* MazeBuilder.cpp in Sources */,
+				173D22551F1C347500BAE537 /* ViewController.mm in Sources */,
+				173D22641F1C370A00BAE537 /* MGOpenGLView.mm in Sources */,
+				17ECDABC1F255080002E04C3 /* ShaderMgr.cpp in Sources */,
+				17ECDAD41F25738E002E04C3 /* VisMgr.cpp in Sources */,
+				173D22521F1C347500BAE537 /* main.m in Sources */,
+				173D224F1F1C347500BAE537 /* AppDelegate.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		17C389DA1F1180AD00D3C1D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -131,7 +307,48 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		173D22581F1C347500BAE537 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				173D22591F1C347500BAE537 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		173D225C1F1C347500BAE537 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = "\"/Users/pwingo/Programming Projects/WingoOGLSupports/glm-0.9.6.1\"";
+				INFOPLIST_FILE = VisualizationCode/MacOS_cocoa/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "wingo.blam.boomer.MG2-Visualization";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		173D225D1F1C347500BAE537 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = "\"/Users/pwingo/Programming Projects/WingoOGLSupports/glm-0.9.6.1\"";
+				INFOPLIST_FILE = VisualizationCode/MacOS_cocoa/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "wingo.blam.boomer.MG2-Visualization";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		17C389E31F1180AD00D3C1D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -238,6 +455,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		173D225E1F1C347500BAE537 /* Build configuration list for PBXNativeTarget "MG2_Visualization" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				173D225C1F1C347500BAE537 /* Debug */,
+				173D225D1F1C347500BAE537 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		17C389D91F1180AD00D3C1D0 /* Build configuration list for PBXProject "MazeGen2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -254,6 +480,7 @@
 				17C389E71F1180AD00D3C1D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
