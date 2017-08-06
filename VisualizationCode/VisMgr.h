@@ -12,8 +12,6 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-typedef std::vector<GLuint> IndVec;
-
 struct MazeCellVert;
 
 
@@ -25,15 +23,29 @@ public:
     void InitForOpenGL();
     void Draw();
     void NewMaze(MazeBuilder* bldr);
-    
+    void InitTest();
     void RefreshWithMaze(MazeBuilder* bldr);
     
 private:
+    
+    enum {
+        VAO_BASE=0,
+        VAO_TEST,
+        VAO_COUNT
+    };
+    enum
+    {
+        BUFF_MAZE=0,
+        BUFF_TEST,
+        BUFF_COUNT
+    };
     ShaderMgr _shdMgr;
-    IndVec _vaos;
-    IndVec _buffs;
+    
+    GLuint _vaos[VAO_COUNT];
+    GLuint _buffs[BUFF_COUNT];
     
     glm::mat4 _actProj;
+    glm::mat4 _testProj;
     
     glm::vec3 _wallColor;
     //glm::vec3 _pathColor;
@@ -42,7 +54,10 @@ private:
     MInd _vertCount;
     
     GLuint _wallProg;
+    GLuint _passThruProg;
 
     void DrawWalls();
+    void DrawTest();
 
+    void DbgDumpMaze(MazeBuilder* bldr);
 };

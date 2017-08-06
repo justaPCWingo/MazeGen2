@@ -9,5 +9,5 @@ layout (location=0) in vec4 pos;
 
 void main()
 {
-    gl_Position=projMat*pos;
+    gl_Position=pos*projMat;
 }

@@ -7,6 +7,7 @@
 //
 
 #import "MGOpenGLView.h"
+//#import "GLErrStream.hpp"
 
 #ifndef SHADERS_DIR
 #define SHADERS_DIR "shaders"
@@ -52,7 +53,6 @@
     [openGLContext makeCurrentContext];
     
 
-
 }
 
 -(void)prepareOpenGL
@@ -65,7 +65,7 @@
     glEnable (GL_BLEND);
     _visMgr=new VisMgr(SHADERS_DIR);
     _visMgr->InitForOpenGL();
-    
+    //_visMgr->InitTest();
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -78,6 +78,7 @@
 -(void)newMaze:(MazeBuilder*)bldr
 {
     _visMgr->NewMaze(bldr);
+    
 }
 
 -(void)refreshWithMaze:(MazeBuilder*)bldr

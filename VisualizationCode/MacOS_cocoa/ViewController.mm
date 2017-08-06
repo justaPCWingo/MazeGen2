@@ -14,7 +14,7 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-    _bldr=new MazeBuilder(32,32);
+    _bldr=new MazeBuilder(8,8);
     
     
 }

@@ -41,6 +41,7 @@ public:
     ProgItr ProgEnd() { return m_progs.end(); }
     
     inline void SetRelativeDirectory(const STLString & str) { m_relDir=str;}
+    inline STLString GetRelativeDirectory() const {return m_relDir;}
     
     
 private:

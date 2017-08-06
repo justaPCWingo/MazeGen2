@@ -80,9 +80,9 @@
 		17ECDABB1F255080002E04C3 /* ShaderMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderMgr.h; path = ../ShaderMgr.h; sourceTree = "<group>"; };
 		17ECDAC11F25537B002E04C3 /* passThru.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = passThru.frag; path = VisualizationCode/shaders/passThru.frag; sourceTree = SOURCE_ROOT; };
 		17ECDAC21F25537B002E04C3 /* passThru.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = passThru.vert; path = VisualizationCode/shaders/passThru.vert; sourceTree = SOURCE_ROOT; };
-		17ECDAC91F256487002E04C3 /* wall.geom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = wall.geom; sourceTree = "<group>"; };
-		17ECDACB1F2565BE002E04C3 /* wall.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = wall.vert; sourceTree = "<group>"; };
-		17ECDACD1F256F44002E04C3 /* wall.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = wall.frag; sourceTree = "<group>"; };
+		17ECDAC91F256487002E04C3 /* wall.geom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = wall.geom; path = VisualizationCode/shaders/wall.geom; sourceTree = SOURCE_ROOT; };
+		17ECDACB1F2565BE002E04C3 /* wall.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = wall.vert; path = VisualizationCode/shaders/wall.vert; sourceTree = SOURCE_ROOT; };
+		17ECDACD1F256F44002E04C3 /* wall.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = wall.frag; path = VisualizationCode/shaders/wall.frag; sourceTree = SOURCE_ROOT; };
 		17ECDAD21F25736C002E04C3 /* VisMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisMgr.h; path = ../VisMgr.h; sourceTree = "<group>"; };
 		17ECDAD31F25738E002E04C3 /* VisMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisMgr.cpp; path = ../VisMgr.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
