@@ -72,27 +72,27 @@ GLuint ShaderMgr::ProgForName(const STLString & name)
  */
 GLuint ShaderMgr::LoadShaderProgramSet(const STLString & name,const bool & useLazy)
 {
-    STLString vertPath=m_relDir+name+VERT_EXT;
-    STLString fragPath=m_relDir+name+FRAG_EXT;
-    STLString geomPath=m_relDir+name+GEOM_EXT;
-    STLString compPath=m_relDir+name+COMP_EXT;
-    STLString teevPath=m_relDir+name+TES_EXT;
-    STLString tectPath=m_relDir+name+TCS_EXT;
+    STLString vertPath=name+VERT_EXT;
+    STLString fragPath=name+FRAG_EXT;
+    STLString geomPath=name+GEOM_EXT;
+    STLString compPath=name+COMP_EXT;
+    STLString teevPath=name+TES_EXT;
+    STLString tectPath=name+TCS_EXT;
     
-    if(!FileExists(vertPath.c_str()))
+    if(!FileExists((m_relDir+vertPath).c_str()))
         vertPath.clear();
-    if(!FileExists(fragPath.c_str()))
+    if(!FileExists((m_relDir+fragPath).c_str()))
         fragPath.clear();
-    if(!FileExists(geomPath.c_str()))
+    if(!FileExists((m_relDir+geomPath).c_str()))
         geomPath.clear();
-    if(!FileExists(compPath.c_str()))
+    if(!FileExists((m_relDir+compPath).c_str()))
         compPath.clear();
-    if(!FileExists(teevPath.c_str()))
+    if(!FileExists((m_relDir+teevPath).c_str()))
         teevPath.clear();
-    if(!FileExists(tectPath.c_str()))
+    if(!FileExists((m_relDir+tectPath).c_str()))
         tectPath.clear();
 
-    
+    //remove prefix from path
     if(useLazy)
     {
         LazyLoads entry;
@@ -319,7 +319,7 @@ int ShaderMgr::CompileFile(const STLString & filepath,const GLuint shader)
         fullPath=m_relDir+fullPath;
     
 	using namespace std;
-	ifstream file(filepath,ifstream::in);
+	ifstream file(fullPath,ifstream::in);
     //	file.open(filepath,ios::in); //ASCII
 	if(!file || !file.good())
 		return 0;

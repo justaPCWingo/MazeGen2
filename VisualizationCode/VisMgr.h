@@ -26,6 +26,7 @@ public:
     void InitTest();
     void RefreshWithMaze(MazeBuilder* bldr);
     
+    static void DbgDumpMaze(MazeBuilder* bldr);
 private:
     
     enum {
@@ -48,6 +49,7 @@ private:
     glm::mat4 _testProj;
     
     glm::vec3 _wallColor;
+    glm::vec3 _gridColor;
     //glm::vec3 _pathColor;
     
     MazeCellVert *_verts;
@@ -55,9 +57,11 @@ private:
     
     GLuint _wallProg;
     GLuint _passThruProg;
+    GLuint _gridProg;
 
     void DrawWalls();
+    void DrawGrid();
     void DrawTest();
 
-    void DbgDumpMaze(MazeBuilder* bldr);
+    
 };

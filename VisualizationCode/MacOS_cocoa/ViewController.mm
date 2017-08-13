@@ -14,7 +14,7 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-    _bldr=new MazeBuilder(8,8);
+    _bldr=new MazeBuilder(16,16);
     
     
 }
@@ -33,8 +33,18 @@
 
 -(IBAction)RefreshMaze:(id)sender
 {
-    _bldr->GenerateMaze();
-    [_glView refreshWithMaze:_bldr];
+    try
+    {
+        _bldr->GenerateMaze();
+        [_glView refreshWithMaze:_bldr];
+    }
+    catch(std::runtime_error & e)
+    {
+        VisMgr::DbgDumpMaze(_bldr);
+        std::cout<<"Start: "<<_bldr->GetStart()<<std::endl;
+        std::cout<<"Finish: "<<_bldr->GetFinish()<<std::endl;
+        throw e;
+    }
 }
 
 -(void)dealloc

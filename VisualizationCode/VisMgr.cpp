@@ -13,6 +13,7 @@
 #include "GLErrStream.hpp"
 #include<string>
 #include<sstream>
+#include<iomanip>
 
 #ifdef __APPLE__
 #include <Opengl/gl3.h>
@@ -56,6 +57,7 @@ VisMgr::VisMgr(const std::string & shadDir)
     _shdMgr=ShaderMgr(shadDir);
     
     _wallColor={1.0,0.0,0.0};
+    _gridColor={0.4,0.0,0.0};
     _actProj=glm::mat4();
     
     for(unsigned int i=0; i<VAO_COUNT;++i)
@@ -65,7 +67,7 @@ VisMgr::VisMgr(const std::string & shadDir)
     
     _wallProg=0;
     _passThruProg=0;
-    
+    _gridProg=0;
 }
 
 void VisMgr::InitForOpenGL()
@@ -79,6 +81,7 @@ void VisMgr::InitForOpenGL()
     //std::string relDir=_shdMgr.GetRelativeDirectory();
 //    _wallProg=_shdMgr.LoadShaderProgram("wall",relDir+"wall.vert",relDir+"wall.frag");
     _passThruProg=_shdMgr.LoadShaderProgramSet("passThru");
+    _gridProg=_shdMgr.LoadShaderProgram("grid","wall.vert","wall.frag","grid.geom");
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     
 }
@@ -90,6 +93,7 @@ void VisMgr::Draw()
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);				// clear the window
     
     //[self drawGrid]
+    DrawGrid();
     DrawWalls();
     //DrawTest();
     //[self drawPath]
@@ -118,6 +122,29 @@ void VisMgr::DrawWalls()
     
 
 }
+
+void VisMgr::DrawGrid()
+{
+    glBindVertexArray(_vaos[VAO_BASE]);
+    glBindBuffer(GL_ARRAY_BUFFER, _buffs[BUFF_MAZE]);
+    ASSERT_GL("Pre Draw");
+    glUseProgram(_gridProg);
+    ASSERT_GL("Use Program");
+    glUniformMatrix4fv(glGetUniformLocation(_wallProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_actProj));
+    ASSERT_GL("ProjMat assign");
+    glUniform3fv(glGetUniformLocation(_wallProg,"wallColor"),1,glm::value_ptr(_gridColor));
+    ASSERT_GL("color assing");
+    glDrawArrays(GL_POINTS,0,_vertCount);
+    ASSERT_GL("draw arrays");
+    glUseProgram(0);
+    ASSERT_GL("End Draw");
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    
+    
+}
+
 
 void VisMgr::DrawTest()
 {
@@ -163,6 +190,7 @@ void VisMgr::InitTest()
 
 void VisMgr::NewMaze(MazeBuilder* bldr)
 {
+    const GLfloat OFFSET=0.00;
     //prepare buffers
     glGenBuffers( 1, &_buffs[BUFF_MAZE] );
 //    glGenBuffers( BUFF_COUNT, _buffs );
@@ -181,18 +209,18 @@ void VisMgr::NewMaze(MazeBuilder* bldr)
         MInd c=0;
         for(; c<bldr->GetColCount();++c)
         {
-            _verts[currInd++]=MazeCellVert(c,r);
+            _verts[currInd++]=MazeCellVert(c+(OFFSET*c),r+(OFFSET*r));
         }
         
         //handle extra column of walls
-        _verts[currInd++]=MazeCellVert(c,r);
+        _verts[currInd++]=MazeCellVert(c+(OFFSET*c),r+(OFFSET*r));
     }
     
     //handle last row of walls
     MInd c=0;
     for(; c<bldr->GetColCount();++c)
     {
-        _verts[currInd++]=MazeCellVert(c,r);
+        _verts[currInd++]=MazeCellVert(c+(OFFSET*c),r+(OFFSET*r));
     }
     
     glBindVertexArray(_vaos[VAO_BASE]);
@@ -203,19 +231,21 @@ void VisMgr::NewMaze(MazeBuilder* bldr)
     glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof(MazeCellVert), BUFFER_OFFSET(0) );
     
     glEnableVertexAttribArray( 1 );
-    glVertexAttribPointer(1,1,GL_UNSIGNED_INT, GL_FALSE,sizeof(MazeCellVert),BUFFER_OFFSET(sizeof(GLfloat)*3));
+    glVertexAttribIPointer(1,1,GL_UNSIGNED_INT,sizeof(MazeCellVert),BUFFER_OFFSET(sizeof(GLfloat)*3));
     
     glBindBuffer(GL_ARRAY_BUFFER,0);
     glBindVertexArray(0);
     
     //set ortho projection
-    _actProj=glm::ortho(-2.f, bldr->GetRowCount()+2.f, -2.f, bldr->GetColCount()+2.f,1.f,-1.f);
+    _actProj=glm::ortho(-2.f, bldr->GetRowCount()+2.f, bldr->GetColCount()+2.f, -2.f, 1.f,-1.f);
     //set up wall values
     RefreshWithMaze(bldr);
 }
 
 void VisMgr::RefreshWithMaze(MazeBuilder* bldr)
 {
+    //useful for some shaders
+    const MInd BOUNDARY_FLAG=0x4;
     // Update walls
     
     MInd currInd=0;
@@ -237,8 +267,10 @@ void VisMgr::RefreshWithMaze(MazeBuilder* bldr)
         
         
         //handle extra column of walls
+        _verts[currInd].wall=BOUNDARY_FLAG;
         if(bldr->WallsForCell(r,c-1) & MazeBuilder::RIGHT_DIR)
-            _verts[currInd++].wall=MazeBuilder::LEFT_DIR;
+            _verts[currInd].wall|=MazeBuilder::LEFT_DIR;
+        ++currInd;
         
         //std::cout<<std::endl;
     }
@@ -248,14 +280,17 @@ void VisMgr::RefreshWithMaze(MazeBuilder* bldr)
     MInd c=0;
     for(; c<bldr->GetColCount();++c)
     {
-        unsigned short w=bldr->WallsForCell(r,c);
+        unsigned short w=bldr->WallsForCell(r-1,c);
+        _verts[currInd].wall=BOUNDARY_FLAG;
         if(w & MazeBuilder::DOWN_DIR)
-            _verts[currInd++].wall|=MazeBuilder::UP_DIR;
+            _verts[currInd].wall|=MazeBuilder::UP_DIR;
+        ++currInd;
     }
     ASSERT_GL("PreSubData");
 
     DbgDumpMaze(bldr);
-    
+//    for (MInd i=0; i< _vertCount; ++i)
+//        std::cout<<std::setw(2)<<i<<" Wall: "<<_verts[i].wall<<std::endl;
     glBindVertexArray(_vaos[VAO_BASE]);
     glBindBuffer( GL_ARRAY_BUFFER, _buffs[BUFF_MAZE] );
     glBufferSubData( GL_ARRAY_BUFFER,0,sizeof(MazeCellVert)*_vertCount, _verts);

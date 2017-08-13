@@ -10,13 +10,13 @@
 
 #include<random>
 #include<vector>
-#include<list>
+#include<deque>
 
 typedef unsigned int MInd;
 typedef std::vector<bool> ActVec;
 typedef std::pair<MInd,MInd> MIndPair;
 
-typedef std::list<MInd> PathList;
+typedef std::deque<MInd> PathList;
 
 class MazeBuilder;
 using DBG_MazePrint=void(*)(MazeBuilder &);
@@ -87,7 +87,7 @@ protected:
     inline bool CanUp(MInd currInd) const;
     inline bool CanDown(MInd currInd) const;
     DIRECTIONS CellsAreAdjacent(MInd c1, MInd c2) const;
-    void SetRandomCellWall(MInd cInd, bool value);
+    bool SetRandomCellWall(MInd cInd, bool value);
     bool FindFinish(MInd cInd,PathList & path);
     void MarkAccessibleCells();
     void MarkAccessibleCells(MInd currInd);

@@ -4,6 +4,8 @@ layout(points) in;
 layout(max_vertices=24) out;
 layout(triangle_strip) out;
 
+in uint gWall[1];
+
 uniform mat4 projMat;
 
 
@@ -69,25 +71,23 @@ void TriTest(vec4 start)
 
 void main()
 {
-    float wallInfo=gl_in[0].gl_Position.w;
-//    if(wallInfo>0.0)
-//        TriTest(vec4(gl_in[0].gl_Position.xyz,1.0));
-
-    if (wallInfo>=1.0f)
+    
+    if ((gWall[0] & uint(2) )>0)
     {
-        BuildWall(vec4(gl_in[0].gl_Position.xyz,1.0f),mat4(1.0));
-        wallInfo-=1.0f;
-    }
-    if (wallInfo>=2.0f)
-    {
-        //build rot mat @ 270 degrees.
+        
+        //build rot mat @ 90 degrees.
         //column order
-        mat4 rotMat=mat4(vec4(0.0f,-1.f,0.f,0.f),
-                         vec4(1.0f,0.f,0.f,0.f),
+        mat4 rotMat=mat4(vec4(0.0f,1.f,0.f,0.f),
+                         vec4(-1.0f,0.f,0.f,0.f),
                          vec4(0.f,0.f,1.f,0.f),
                          vec4(0.f,0.f,0.f,1.f));
         
-        BuildWall(vec4(gl_in[0].gl_Position.xyz,1.0f),rotMat);
+        BuildWall(gl_in[0].gl_Position,rotMat);
+        
     }
     
+    if ((gWall[0] & uint(1) )>0)
+        BuildWall(gl_in[0].gl_Position,mat4(1.0));
+    
+    //BuildWall(vec4(float(gWall[0])*0.001,gl_in[0].gl_Position.yz,1.0f),mat4(1.0));
 }

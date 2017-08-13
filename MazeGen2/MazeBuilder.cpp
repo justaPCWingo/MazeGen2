@@ -78,7 +78,12 @@ void MazeBuilder::GenerateMaze()
         PathList unvisited=GetUnvisited();
         if(!unvisited.empty())
         {
-            SetRandomCellWall(RandomCellFromList(unvisited), false);
+            std::shuffle(unvisited.begin(), unvisited.end(), s_randGen);
+            bool hit=false;
+            for (MInd i=0; i<unvisited.size() && !(hit=SetRandomCellWall(unvisited[i], false));++i);
+                 
+            if(!hit)
+                throw std::runtime_error("No viable options for fixing unvisited cells\n");
             continue;
         }
         
@@ -226,7 +231,7 @@ MInd MazeBuilder::EdgeNumToIndex(MInd eInd) const
     //if bottom
     MInd offset=eCount-_cols;
     if(eInd>=offset)
-        return ((_rows-1)*_cols)+(eInd-offset);
+        return (((_rows-1)*_cols)+(eInd-offset))-1;
     
     //intermediate edges
     offset=eInd-_cols;
@@ -260,7 +265,7 @@ void MazeBuilder::SetCellEdge(MInd cellInd,MazeBuilder::DIRECTIONS dir, bool val
     }
 }
 
-void MazeBuilder::SetRandomCellWall(MInd cInd, bool enable)
+bool MazeBuilder::SetRandomCellWall(MInd cInd, bool enable)
 {
     //grab walls
     unsigned short checkWalls=WallsForCell(cInd) | MazeEdgesForCell(cInd);
@@ -274,7 +279,7 @@ void MazeBuilder::SetRandomCellWall(MInd cInd, bool enable)
     
     //check to see if there are no options.
     if(checkWalls==NO_DIR)
-        return;
+        return false;
     
     //brute force;
     std::uniform_int_distribution<MInd> wDistrib(0,3);
@@ -288,6 +293,7 @@ void MazeBuilder::SetRandomCellWall(MInd cInd, bool enable)
     
     SetCellEdge(cInd,toChange,enable);
     
+    return true;
 }
 
 bool MazeBuilder::FindFinish(MInd cInd,PathList & path)
