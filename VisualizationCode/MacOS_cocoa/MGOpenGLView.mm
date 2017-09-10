@@ -52,7 +52,12 @@
     [self setOpenGLContext:openGLContext];
     [openGLContext makeCurrentContext];
     
-
+    //set up path time
+    _pathTimer=[NSTimer scheduledTimerWithTimeInterval:0.001 repeats:YES block:^(NSTimer* theTimer)
+    {
+        _visMgr->SetPathTime(_visMgr->GetPathTime()+0.001);
+        [self setNeedsDisplay:YES];
+    }];
 }
 
 -(void)prepareOpenGL
@@ -78,12 +83,13 @@
 -(void)newMaze:(MazeBuilder*)bldr
 {
     _visMgr->NewMaze(bldr);
-    
+    //[[NSRunLoop currentRunLoop] addTimer:_pathTimer forMode:NSEventTrackingRunLoopMode];
 }
 
 -(void)refreshWithMaze:(MazeBuilder*)bldr
 {
     _visMgr->RefreshWithMaze(bldr);
+    _visMgr->SetPathTime(0.0);
     [self setNeedsDisplay:YES];
 }
 

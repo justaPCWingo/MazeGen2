@@ -17,6 +17,7 @@
 @interface MGOpenGLView : NSOpenGLView
 {
     VisMgr* _visMgr;
+    NSTimer* _pathTimer;
 }
 
 -(void)newMaze:(MazeBuilder*)bldr;

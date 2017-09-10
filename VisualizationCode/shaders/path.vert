@@ -4,10 +4,13 @@ uniform mat4 projMat;
 //uniform mat4 mvMat;
 
 layout (location=0) in vec4 pos;
-//layout (location=1) in vec3 norm;
+layout (location=1) in float stepThresh;
 
+out float threshold;
 
 void main()
 {
     gl_Position=projMat*pos;
+    
+    threshold=stepThresh;
 }

@@ -29,6 +29,9 @@ public:
     
     void StepInDirection(MazeCellVert & mcv, const MazeBuilder::DIRECTIONS & dir,const GLfloat & stepSize);
     
+    void SetPathTime(const GLfloat & currTime);
+    GLfloat GetPathTime() const;
+    
     static void DbgDumpMaze(MazeBuilder* bldr);
 private:
     
@@ -64,6 +67,8 @@ private:
     glm::vec3 _wallColor;
     glm::vec3 _gridColor;
     glm::vec3 _pathColor;
+    
+    GLfloat _pathTime;
     
     MazeCellVert *_wallVerts;
     MInd _wVertCount;

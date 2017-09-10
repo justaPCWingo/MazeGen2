@@ -60,6 +60,7 @@ VisMgr::VisMgr(const std::string & shadDir)
 ,_pathVerts(nullptr)
 ,_pathVertsCount(0)
 ,_pathBuffSize(0)
+,_pathTime(0.0f)
 {
     _shdMgr=ShaderMgr(shadDir);
     
@@ -208,6 +209,7 @@ void VisMgr::DrawPath()
     glUseProgram(_pathProg);
     ASSERT_GL("Use Program");
     glUniformMatrix4fv(glGetUniformLocation(_pathProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_actProj));
+    glUniform1f(glGetUniformLocation(_pathProg,"currTime"),_pathTime);
     ASSERT_GL("ProjMat assign");
     glUniform3fv(glGetUniformLocation(_pathProg,"pathColor"),1,glm::value_ptr(_pathColor));
         glDrawArrays(GL_LINE_STRIP,0,_pathVertsCount);
@@ -435,6 +437,16 @@ void VisMgr::StepInDirection(MazeCellVert & mcv, const MazeBuilder::DIRECTIONS &
         //do nothing
         break;
     }
+}
+
+void VisMgr::SetPathTime(const GLfloat & currTime)
+{
+    _pathTime=currTime;
+}
+
+GLfloat VisMgr::GetPathTime() const
+{
+    return _pathTime;
 }
 
 void VisMgr::DbgDumpMaze(MazeBuilder* bldr)
