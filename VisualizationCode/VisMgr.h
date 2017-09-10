@@ -23,45 +23,68 @@ public:
     void InitForOpenGL();
     void Draw();
     void NewMaze(MazeBuilder* bldr);
-    void InitTest();
+    //void InitTest();
     void RefreshWithMaze(MazeBuilder* bldr);
+    void BuildPath(MazeBuilder* bldr);
+    
+    void StepInDirection(MazeCellVert & mcv, const MazeBuilder::DIRECTIONS & dir,const GLfloat & stepSize);
     
     static void DbgDumpMaze(MazeBuilder* bldr);
 private:
     
     enum {
-        VAO_BASE=0,
-        VAO_TEST,
+        VAO_MAZE=0,
+        //VAO_TEST,
+        VAO_PATH,
         VAO_COUNT
     };
     enum
     {
         BUFF_MAZE=0,
-        BUFF_TEST,
-        BUFF_COUNT
+        //BUFF_TEST,
+
+        BUFF_MAZE_COUNT
+    };
+    
+    enum
+    {
+        BUFF_PATH=0,
+        
+        BUFF_PATH_COUNT
     };
     ShaderMgr _shdMgr;
     
     GLuint _vaos[VAO_COUNT];
-    GLuint _buffs[BUFF_COUNT];
+    GLuint _mazeBuffs[BUFF_MAZE_COUNT];
+    GLuint _pathBuffs[BUFF_PATH_COUNT];
     
     glm::mat4 _actProj;
     glm::mat4 _testProj;
     
     glm::vec3 _wallColor;
     glm::vec3 _gridColor;
-    //glm::vec3 _pathColor;
+    glm::vec3 _pathColor;
     
-    MazeCellVert *_verts;
-    MInd _vertCount;
+    MazeCellVert *_wallVerts;
+    MInd _wVertCount;
+    
+    MazeCellVert *_pathVerts;
+    MInd _pathVertsCount;
+    MInd _pathBuffSize;
     
     GLuint _wallProg;
+    GLuint _pathProg;
     GLuint _passThruProg;
     GLuint _gridProg;
 
+    void InitMazeBuffs();
+    void InitPathBuffs();
+    
     void DrawWalls();
     void DrawGrid();
-    void DrawTest();
+    void DrawPath();
+    //void DrawTest();
 
+    void StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir);
     
 };

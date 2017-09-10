@@ -18,6 +18,10 @@
 		17572E331F3FD148006CAD6C /* grid.geom in Resources */ = {isa = PBXBuildFile; fileRef = 17572E321F3FD148006CAD6C /* grid.geom */; };
 		17572E341F3FD2DB006CAD6C /* wall-lines.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17572E301F3FCC5C006CAD6C /* wall-lines.geom */; };
 		17572E351F3FD2DB006CAD6C /* grid.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17572E321F3FD148006CAD6C /* grid.geom */; };
+		17B1A11A1F5BBEE300573CAB /* path.vert in Resources */ = {isa = PBXBuildFile; fileRef = 17B1A1191F5BBEE300573CAB /* path.vert */; };
+		17B1A11C1F5BBF1E00573CAB /* path.frag in Resources */ = {isa = PBXBuildFile; fileRef = 17B1A11B1F5BBF1E00573CAB /* path.frag */; };
+		17B1A11D1F5BC03100573CAB /* path.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17B1A1191F5BBEE300573CAB /* path.vert */; };
+		17B1A11E1F5BC03100573CAB /* path.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17B1A11B1F5BBF1E00573CAB /* path.frag */; };
 		17C389E21F1180AD00D3C1D0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C389E11F1180AD00D3C1D0 /* main.cpp */; };
 		17C389EA1F11814F00D3C1D0 /* MazeBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C389E81F11814F00D3C1D0 /* MazeBuilder.cpp */; };
 		17ECDAB71F254EA4002E04C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 173D225B1F1C347500BAE537 /* Assets.xcassets */; };
@@ -52,6 +56,8 @@
 			dstPath = shaders;
 			dstSubfolderSpec = 16;
 			files = (
+				17B1A11D1F5BC03100573CAB /* path.vert in CopyFiles */,
+				17B1A11E1F5BC03100573CAB /* path.frag in CopyFiles */,
 				17572E341F3FD2DB006CAD6C /* wall-lines.geom in CopyFiles */,
 				17572E351F3FD2DB006CAD6C /* grid.geom in CopyFiles */,
 				17ECDACF1F256F8F002E04C3 /* wall.geom in CopyFiles */,
@@ -79,6 +85,8 @@
 		173D22631F1C370A00BAE537 /* MGOpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MGOpenGLView.mm; sourceTree = "<group>"; };
 		17572E301F3FCC5C006CAD6C /* wall-lines.geom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = "wall-lines.geom"; path = "VisualizationCode/shaders/wall-lines.geom"; sourceTree = SOURCE_ROOT; };
 		17572E321F3FD148006CAD6C /* grid.geom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = grid.geom; path = VisualizationCode/shaders/grid.geom; sourceTree = SOURCE_ROOT; };
+		17B1A1191F5BBEE300573CAB /* path.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = path.vert; path = VisualizationCode/shaders/path.vert; sourceTree = SOURCE_ROOT; };
+		17B1A11B1F5BBF1E00573CAB /* path.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = path.frag; sourceTree = "<group>"; };
 		17C389DE1F1180AD00D3C1D0 /* MazeGen2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MazeGen2; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C389E11F1180AD00D3C1D0 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		17C389E81F11814F00D3C1D0 /* MazeBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MazeBuilder.cpp; sourceTree = "<group>"; };
@@ -193,6 +201,8 @@
 				17ECDACD1F256F44002E04C3 /* wall.frag */,
 				17572E301F3FCC5C006CAD6C /* wall-lines.geom */,
 				17572E321F3FD148006CAD6C /* grid.geom */,
+				17B1A1191F5BBEE300573CAB /* path.vert */,
+				17B1A11B1F5BBF1E00573CAB /* path.frag */,
 			);
 			name = shaders;
 			sourceTree = "<group>";
@@ -282,9 +292,11 @@
 				17572E311F3FCC5C006CAD6C /* wall-lines.geom in Resources */,
 				17ECDAB71F254EA4002E04C3 /* Assets.xcassets in Resources */,
 				17ECDAC31F25537B002E04C3 /* passThru.frag in Resources */,
+				17B1A11A1F5BBEE300573CAB /* path.vert in Resources */,
 				173D22571F1C347500BAE537 /* Assets.xcassets in Resources */,
 				17572E331F3FD148006CAD6C /* grid.geom in Resources */,
 				17ECDACE1F256F44002E04C3 /* wall.frag in Resources */,
+				17B1A11C1F5BBF1E00573CAB /* path.frag in Resources */,
 				17ECDACC1F2565BE002E04C3 /* wall.vert in Resources */,
 				173D225A1F1C347500BAE537 /* Main.storyboard in Resources */,
 				17ECDACA1F256487002E04C3 /* wall.geom in Resources */,

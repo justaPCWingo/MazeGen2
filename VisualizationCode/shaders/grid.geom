@@ -11,20 +11,26 @@ uniform mat4 projMat;
 
 void BuildCell(vec4 tl)
 {
+    mat4 scaleMat=mat4(vec4(2.f,0.f,0.f,0.f),
+                       vec4(0.0f,2.f,0.f,0.f),
+                       vec4(0.f,0.f,1.f,0.f),
+                       vec4(0.f,0.f,0.f,1.f));
+    mat4 mvpMat=projMat*scaleMat;
+    
     vec4 v0=vec4(.0f,0.f,0.0f,1.0f);
     vec4 v1=vec4(1.f,0.f,0.0f,1.0f);
     vec4 v3=vec4(1.f,1.f,0.0f,1.0f);
     vec4 v4=vec4(0.f,1.f,0.0f,1.0f);
     
-    gl_Position=projMat*(v0+tl);
+    gl_Position=mvpMat*(v0+tl);
     EmitVertex();
-    gl_Position=projMat*(v1+tl);
+    gl_Position=mvpMat*(v1+tl);
     EmitVertex();
-    gl_Position=projMat*(v3+tl);
+    gl_Position=mvpMat*(v3+tl);
     EmitVertex();
-    gl_Position=projMat*(v4+tl);
+    gl_Position=mvpMat*(v4+tl);
     EmitVertex();
-    gl_Position=projMat*(v0+tl);
+    gl_Position=mvpMat*(v0+tl);
     EmitVertex();
     EndPrimitive();
 }
@@ -36,7 +42,7 @@ void main()
     if (gWall[0] <4)
     {
         
-        BuildCell(vec4(gl_in[0].gl_Position));
+        BuildCell(gl_in[0].gl_Position);
         
     }
 }

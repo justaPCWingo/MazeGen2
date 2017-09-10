@@ -26,6 +26,12 @@ void BuildWall(vec4 start,mat4 rotMat)
 //                   vec4(.1f,-.1f,0.0f,1.0f),
 //                   vec4(.9f,-.1f,0.0f,1.0f)};
 
+    mat4 scaleMat=mat4(vec4(2.f,0.f,0.f,0.f),
+                       vec4(0.0f,2.f,0.f,0.f),
+                       vec4(0.f,0.f,1.f,0.f),
+                       vec4(0.f,0.f,0.f,1.f));
+    mat4 mvpMat=projMat*scaleMat;
+
     vec4 v0=vec4(.1f,.1f,0.0f,1.0f);
     vec4 v1=vec4(.9f,.1f,0.0f,1.0f);
     vec4 v2=vec4(.0f,0.f,0.0f,1.0f);
@@ -33,23 +39,23 @@ void BuildWall(vec4 start,mat4 rotMat)
     vec4 v4=vec4(.1f,-.1f,0.0f,1.0f);
     vec4 v5=vec4(.9f,-.1f,0.0f,1.0f);
     
-    gl_Position=projMat*((rotMat*v0)+start);
+    gl_Position=mvpMat*((rotMat*v0)+start);
     EmitVertex();
-    gl_Position=projMat*((rotMat*v2)+start);
+    gl_Position=mvpMat*((rotMat*v2)+start);
     EmitVertex();
-    gl_Position=projMat*((rotMat*v1)+start);
+    gl_Position=mvpMat*((rotMat*v1)+start);
     EmitVertex();
-    gl_Position=projMat*((rotMat*v3)+start);
+    gl_Position=mvpMat*((rotMat*v3)+start);
     EmitVertex();
     EndPrimitive();
     
-    gl_Position=projMat*((rotMat*v2)+start);
+    gl_Position=mvpMat*((rotMat*v2)+start);
     EmitVertex();
-    gl_Position=projMat*((rotMat*v4)+start);
+    gl_Position=mvpMat*((rotMat*v4)+start);
     EmitVertex();
-    gl_Position=projMat*((rotMat*v3)+start);
+    gl_Position=mvpMat*((rotMat*v3)+start);
     EmitVertex();
-    gl_Position=projMat*((rotMat*v5)+start);
+    gl_Position=mvpMat*((rotMat*v5)+start);
     EmitVertex();
     EndPrimitive();
 }

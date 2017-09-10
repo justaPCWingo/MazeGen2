@@ -49,12 +49,19 @@ public:
     MInd GetRowCount() const;
     MInd GetColCount() const;
     
+    DIRECTIONS GetStartEdge() const;
+    DIRECTIONS GetFinishEdge() const;
+    
     PathList PathToFinish();
     
+    MInd RowForIndex(MInd ind) const;
+    MInd ColForIndex(MInd ind) const;
+    
     void SetDebugPrint(DBG_MazePrint DbgFunc);
+    static const MInd NO_VAL;
+
 protected:
     
-    static const MInd NO_VAL;
     static const MIndPair NO_PAIR_VAL;
     static std::default_random_engine s_randGen;
     
@@ -63,6 +70,8 @@ protected:
     
     MInd _startInd;
     MInd _finishInd;
+    DIRECTIONS _startEdge;
+    DIRECTIONS _finishEdge;
     ActVec _horizWalls;
     ActVec _vertWalls;
     ActVec _cellHits;
@@ -71,7 +80,7 @@ protected:
     
     //manipulations
     void SealMazeEdges();
-    void OpenEdge(MInd cInd);
+    DIRECTIONS OpenEdge(MInd cInd);
     void ClearVisits();
     
     //lookup utils

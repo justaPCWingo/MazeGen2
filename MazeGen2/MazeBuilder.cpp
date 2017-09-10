@@ -23,6 +23,8 @@ MazeBuilder::MazeBuilder(MInd rows, MInd cols)
 ,_cols(cols)
 ,_startInd(NO_VAL)
 ,_finishInd(NO_VAL)
+,_startEdge(NO_DIR)
+,_finishEdge(NO_DIR)
 ,_DbgPrint(nullptr)
 
 {
@@ -101,8 +103,8 @@ void MazeBuilder::GenerateMaze()
     } while(go);
     
     //open edges
-    OpenEdge(_startInd);
-    OpenEdge(_finishInd);
+    _startEdge=OpenEdge(_startInd);
+    _finishEdge=OpenEdge(_finishInd);
 }
 
 unsigned short MazeBuilder::WallsForCell(MInd currInd) const
@@ -152,6 +154,17 @@ MInd MazeBuilder::GetFinish() const
     return _finishInd;
 }
 
+MazeBuilder::DIRECTIONS MazeBuilder::GetStartEdge() const
+{
+    return _startEdge;
+}
+
+MazeBuilder::DIRECTIONS MazeBuilder::GetFinishEdge() const
+{
+    return _finishEdge;
+}
+
+
 MInd MazeBuilder::GetRowCount() const
 {
     return _rows;
@@ -169,6 +182,20 @@ PathList MazeBuilder::PathToFinish()
     
     FindFinish(_startInd,ret);
     return ret;
+}
+
+MInd MazeBuilder::RowForIndex(MInd ind) const
+{
+    if (ind > _rows*_cols)
+        return NO_VAL;
+    return ind / _cols;
+}
+
+MInd MazeBuilder::ColForIndex(MInd ind) const
+{
+    if (ind > _rows*_cols)
+        return NO_VAL;
+    return ind % _cols;
 }
 
 void MazeBuilder::SetDebugPrint(DBG_MazePrint DbgFunc)
@@ -195,22 +222,26 @@ void MazeBuilder::SealMazeEdges()
     }
 }
 
-void MazeBuilder::OpenEdge(MInd cInd)
+MazeBuilder::DIRECTIONS MazeBuilder::OpenEdge(MInd cInd)
 {
     unsigned short hit=MazeEdgesForCell(cInd);
     
+    DIRECTIONS ret=NO_DIR;
     //walk down possibilities (more than one if corner)
     if (hit!=NO_DIR)
     {
         if (hit & UP_DIR)
-            SetCellEdge(cInd, UP_DIR, false);
+            ret=UP_DIR;
         else if (hit & DOWN_DIR)
-            SetCellEdge(cInd, DOWN_DIR, false);
+            ret=DOWN_DIR;
         else if (hit & LEFT_DIR)
-            SetCellEdge(cInd, LEFT_DIR, false);
+            ret=LEFT_DIR;
         else if (hit & RIGHT_DIR)
-            SetCellEdge(cInd, RIGHT_DIR, false);
+            ret=RIGHT_DIR;
+        
+        SetCellEdge(cInd, ret, false);
     }
+    return ret;
 }
 
 void MazeBuilder::ClearVisits()
