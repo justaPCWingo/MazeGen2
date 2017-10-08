@@ -18,7 +18,7 @@ struct MazeCellVert;
 class VisMgr
 {
 public:
-    VisMgr(const std::string & shadDir);
+    VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint height);
     
     void InitForOpenGL();
     void Draw();
@@ -32,6 +32,8 @@ public:
     void SetPathTime(const GLfloat & currTime);
     GLfloat GetPathTime() const;
     
+    void SetViewport(GLint x,GLint y,GLint width,GLint height);
+    
     static void DbgDumpMaze(MazeBuilder* bldr);
 private:
     
@@ -39,6 +41,7 @@ private:
         VAO_MAZE=0,
         //VAO_TEST,
         VAO_PATH,
+        VAO_COMPOSITE,
         VAO_COUNT
     };
     enum
@@ -55,11 +58,22 @@ private:
         
         BUFF_PATH_COUNT
     };
+    
+    enum
+    {
+        TEX_COMP=0,
+        
+        TEX_COUNT
+    };
     ShaderMgr _shdMgr;
     
     GLuint _vaos[VAO_COUNT];
     GLuint _mazeBuffs[BUFF_MAZE_COUNT];
     GLuint _pathBuffs[BUFF_PATH_COUNT];
+    GLuint _textures[TEX_COUNT];
+    
+    GLuint _compFBO;
+    GLuint _depthBuff;
     
     glm::mat4 _actProj;
     glm::mat4 _testProj;
@@ -81,15 +95,25 @@ private:
     GLuint _pathProg;
     GLuint _passThruProg;
     GLuint _gridProg;
+    GLuint _compositeProg;
+    GLuint _compositeBuff;
 
     void InitMazeBuffs();
     void InitPathBuffs();
+    void InitCompositeBuff();
     
     void DrawWalls();
     void DrawGrid();
     void DrawPath();
+    void DrawComposite();
     //void DrawTest();
 
+    //viewport boundries
+    GLint _vpX;
+    GLint _vpY;
+    GLint _vpWidth;
+    GLint _vpHeight;
+    
     void StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir);
     
 };

@@ -55,12 +55,16 @@ struct MazeCellVert {
     
 };
 
-VisMgr::VisMgr(const std::string & shadDir)
+VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint height)
 :_wallVerts(nullptr)
 ,_pathVerts(nullptr)
 ,_pathVertsCount(0)
 ,_pathBuffSize(0)
 ,_pathTime(0.0f)
+,_vpX(x)
+,_vpY(y)
+,_vpWidth(width)
+,_vpHeight(height)
 {
     _shdMgr=ShaderMgr(shadDir);
     
@@ -77,11 +81,14 @@ VisMgr::VisMgr(const std::string & shadDir)
     for(unsigned int i=0; i<BUFF_PATH_COUNT;++i)
         _pathBuffs[i]=0;
 
+    _compFBO=0;
+    _depthBuff=0;
     
     _wallProg=0;
     _passThruProg=0;
     _gridProg=0;
     _pathProg=0;
+
 }
 
 void VisMgr::InitForOpenGL()
@@ -96,6 +103,7 @@ void VisMgr::InitForOpenGL()
     //std::string relDir=_shdMgr.GetRelativeDirectory();
 //    _wallProg=_shdMgr.LoadShaderProgram("wall",relDir+"wall.vert",relDir+"wall.frag");
     _passThruProg=_shdMgr.LoadShaderProgramSet("passThru");
+    _compositeProg=_shdMgr.LoadShaderProgramSet("composite");
     _gridProg=_shdMgr.LoadShaderProgram("grid","wall.vert","wall.frag","grid.geom");
     
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -105,13 +113,21 @@ void VisMgr::InitForOpenGL()
 void VisMgr::Draw()
 {
     // Drawing code here.
-    
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);				// clear the window
-    
+    glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
+    glViewport(0, 0, 1024, 1024);
+
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                // clear the window
+
     //[self drawGrid]
     DrawGrid();
     DrawWalls();
     DrawPath();
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(_vpX, _vpY, _vpWidth, _vpHeight);
+    
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    DrawComposite();
     //DrawTest();
     //[self drawPath]
     
@@ -155,6 +171,83 @@ void VisMgr::InitPathBuffs()
     glBindBuffer(GL_ARRAY_BUFFER,0);
     glBindVertexArray(0);
 
+}
+
+void VisMgr::InitCompositeBuff()
+{
+    GLfloat verts[]={-1.0, 1.0,0.0,
+                     -1.0,-1.0,0.0,
+                      1.0, 1.0,0.0,
+                      1.0,-1.0,0.0};
+    
+    glGenBuffers(1,&_compositeBuff);
+    glBindVertexArray(_vaos[VAO_COMPOSITE]);
+    glBindBuffer(GL_ARRAY_BUFFER, _compositeBuff);
+    glBufferData( GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW );
+    
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*3, BUFFER_OFFSET(0) );
+    
+    glEnableVertexAttribArray(0);
+    
+    //configure FBO (see http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/ )
+    glGenFramebuffers(1, &_compFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
+    
+    // - prepare Texture target
+    glGenTextures(TEX_COUNT,_textures);
+    glBindTexture(GL_TEXTURE_2D,_textures[TEX_COMP]);
+    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA, 1024, 1024, 0,GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    
+    // - prepare depth buffer
+    glGenRenderbuffers(1, &_depthBuff);
+    glBindRenderbuffer(GL_RENDERBUFFER, _depthBuff);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 1024, 1024);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthBuff);
+    
+    // - attach texture
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, _textures[TEX_COMP], 0);
+    GLenum buffsToDraw[]={GL_COLOR_ATTACHMENT0};
+    glDrawBuffers(1, buffsToDraw);
+    
+    GLenum fboStatus=glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if(fboStatus!=GL_FRAMEBUFFER_COMPLETE)
+    {
+        const char *msg="no Err";
+        switch(fboStatus)
+        {
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+                msg="Incomplete attachment";
+                break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+                msg="Missing attachment";
+                break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+                msg="Incomplete Draw buffer";
+                break;
+        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+                msg="Incomplete read buffer";
+                break;
+        case GL_FRAMEBUFFER_UNSUPPORTED:
+                msg="Framebuff unsupported";
+                break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+                msg="Incomplete multisample";
+                break;
+        case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+                msg="Incomplete layer targets";
+                break;
+        }
+        
+        throw std::runtime_error(msg);
+    }
+    
+    //unbind everything
+    glBindFramebuffer(GL_FRAMEBUFFER,0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D,0);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
 void VisMgr::DrawWalls()
@@ -223,7 +316,24 @@ void VisMgr::DrawPath()
     
 }
 
-
+void VisMgr::DrawComposite()
+{
+    ASSERT_GL("Pre Composite");
+    glBindVertexArray(_vaos[VAO_COMPOSITE]);
+    glBindBuffer(GL_ARRAY_BUFFER,_compositeBuff);
+    glUseProgram(_compositeProg);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _textures[TEX_COMP]);
+    glBindSampler(glGetUniformLocation(_compositeProg,"srcTx"),0);
+    ASSERT_GL("Texture bound");
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    ASSERT_GL("Comp drawn");
+    glUseProgram(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindVertexArray(0);
+    
+}
 //void VisMgr::DrawTest()
 //{
 //    ASSERT_GL("pre draw");
@@ -303,7 +413,7 @@ void VisMgr::NewMaze(MazeBuilder* bldr)
     
     InitMazeBuffs();
     InitPathBuffs();
-    
+    InitCompositeBuff();
     
     //set ortho projection
     _actProj=glm::ortho(-2.f, bldr->GetRowCount()+2.f, -2.f, bldr->GetColCount()+2.f, 1.f,-1.f);
@@ -496,4 +606,15 @@ void VisMgr::StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir)
             break;
     }
 }
+
+void VisMgr::SetViewport(GLint x, GLint y, GLint width, GLint height)
+{ 
+    _vpX=x;
+    _vpY=y;
+    _vpWidth=width;
+    _vpHeight=height;
+}
+
+
+
 

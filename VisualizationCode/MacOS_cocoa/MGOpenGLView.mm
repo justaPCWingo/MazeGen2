@@ -66,9 +66,9 @@
     [super prepareOpenGL];
     
     NSRect bounds=[self bounds];
-    glViewport(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+    
     glEnable (GL_BLEND);
-    _visMgr=new VisMgr(SHADERS_DIR);
+    _visMgr=new VisMgr(SHADERS_DIR,bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
     _visMgr->InitForOpenGL();
     //_visMgr->InitTest();
 }
@@ -78,6 +78,12 @@
     // Drawing code here.
     _visMgr->Draw();
     [[self openGLContext] flushBuffer];
+}
+
+-(void)reshape
+{
+    NSRect bounds=[self bounds];
+    _visMgr->SetViewport(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 }
 
 -(void)newMaze:(MazeBuilder*)bldr
