@@ -88,7 +88,8 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
     _passThruProg=0;
     _gridProg=0;
     _pathProg=0;
-
+    _blurProg=0;
+    _combineProg=0;
 }
 
 void VisMgr::InitForOpenGL()
@@ -105,25 +106,70 @@ void VisMgr::InitForOpenGL()
     _passThruProg=_shdMgr.LoadShaderProgramSet("passThru");
     _compositeProg=_shdMgr.LoadShaderProgramSet("composite");
     _gridProg=_shdMgr.LoadShaderProgram("grid","wall.vert","wall.frag","grid.geom");
+    _blurProg=_shdMgr.LoadShaderProgram("blur","composite.vert","transfer.frag");
+    _combineProg=_shdMgr.LoadShaderProgram("combine","composite.vert","combine.frag");
     
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     
+}
+
+void VisMgr::DrawMaze(bool isBloom)
+{
+    if (!isBloom)
+        DrawGrid();
+    DrawWalls();
+    DrawPath(isBloom);
 }
 
 void VisMgr::Draw()
 {
     // Drawing code here.
     glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
+    GLenum buffsToDraw[]={GL_COLOR_ATTACHMENT0};
+    glDrawBuffers(1, buffsToDraw);
     glViewport(0, 0, 1024, 1024);
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                // clear the window
 
-    //[self drawGrid]
-    DrawGrid();
-    DrawWalls();
-    DrawPath();
+    //draw base maze
+    DrawMaze(false);
+    
+    //do blur composites for downscale
+    GLuint dims=1024;
+    for(unsigned int i=0;i<TEX_COUNT;++i,dims/=2)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbos1[i]);
+        glViewport(0,0,dims,dims);
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        DrawMaze(true);
+    }
+    
+    
+    dims=1024;
+    GLfloat kernel[]={5./16.,6./16.,5./16.};
+    for(unsigned int i=0;i<TEX_COUNT;++i,dims/=2)
+    {
+        //do horizontal blur
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbos2[i]);
+        glViewport(0,0,dims,dims);
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        DrawBlur(1.2/dims, 0.0, kernel, _textures1[i]);
+        
+        //do vertical blur
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbos1[i]);
+        glViewport(0,0,dims,dims);
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        DrawBlur(0.0, 1.2/dims, kernel, _textures2[i]);
+    }
+    
+    
+    //put it all together.
+    glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
+    glViewport(0, 0, 1024, 1024);
+    DrawCombine(_textures1);
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    //draw to screen
     glViewport(_vpX, _vpY, _vpWidth, _vpHeight);
     
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -189,58 +235,23 @@ void VisMgr::InitCompositeBuff()
     
     glEnableVertexAttribArray(0);
     
-    //configure FBO (see http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/ )
-    glGenFramebuffers(1, &_compFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
-    
-    // - prepare Texture target
-    glGenTextures(TEX_COUNT,_textures);
-    glBindTexture(GL_TEXTURE_2D,_textures[TEX_COMP]);
-    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA, 1024, 1024, 0,GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    
     // - prepare depth buffer
     glGenRenderbuffers(1, &_depthBuff);
     glBindRenderbuffer(GL_RENDERBUFFER, _depthBuff);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 1024, 1024);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthBuff);
     
-    // - attach texture
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, _textures[TEX_COMP], 0);
-    GLenum buffsToDraw[]={GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, buffsToDraw);
+    CreateRenderFBO(_compFBO,_compTexture,1024,1024);
+    glGenFramebuffers(TEX_COUNT, _fbos1);
+    glGenFramebuffers(TEX_COUNT, _fbos2);
+    glGenTextures(TEX_COUNT, _textures1);
+    glGenTextures(TEX_COUNT, _textures2);
     
-    GLenum fboStatus=glCheckFramebufferStatus(GL_FRAMEBUFFER);
-    if(fboStatus!=GL_FRAMEBUFFER_COMPLETE)
+    GLuint currDim=1024;
+    for(unsigned int i=0; i<TEX_COUNT;++i)
     {
-        const char *msg="no Err";
-        switch(fboStatus)
-        {
-        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-                msg="Incomplete attachment";
-                break;
-        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-                msg="Missing attachment";
-                break;
-        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
-                msg="Incomplete Draw buffer";
-                break;
-        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
-                msg="Incomplete read buffer";
-                break;
-        case GL_FRAMEBUFFER_UNSUPPORTED:
-                msg="Framebuff unsupported";
-                break;
-        case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
-                msg="Incomplete multisample";
-                break;
-        case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
-                msg="Incomplete layer targets";
-                break;
-        }
-        
-        throw std::runtime_error(msg);
+        CreateRenderFBO(_fbos1[i], _textures1[i], currDim, currDim);
+        CreateRenderFBO(_fbos2[i], _textures2[i], currDim, currDim);
+        currDim/=2;
     }
     
     //unbind everything
@@ -248,6 +259,61 @@ void VisMgr::InitCompositeBuff()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindTexture(GL_TEXTURE_2D,0);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
+}
+
+void VisMgr::CreateRenderFBO(GLuint & fbo,GLuint & tex,GLuint xdim,GLuint ydim)
+{
+    //configure FBO (see http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-14-render-to-texture/ )
+    
+    if(fbo==0)  //only allocate if not preallocated
+        glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthBuff);
+
+    // - prepare Texture target
+    if(tex==0)  //only allocate if not preallocated
+        glGenTextures(1,&tex);
+    glBindTexture(GL_TEXTURE_2D,tex);
+    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA, xdim, ydim, 0,GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    
+    // - attach texture
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex, 0);
+    
+    
+    GLenum fboStatus=glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if(fboStatus!=GL_FRAMEBUFFER_COMPLETE)
+    {
+        const char *msg="no Err";
+        switch(fboStatus)
+        {
+            case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+                msg="Incomplete attachment";
+                break;
+            case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+                msg="Missing attachment";
+                break;
+            case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+                msg="Incomplete Draw buffer";
+                break;
+            case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+                msg="Incomplete read buffer";
+                break;
+            case GL_FRAMEBUFFER_UNSUPPORTED:
+                msg="Framebuff unsupported";
+                break;
+            case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+                msg="Incomplete multisample";
+                break;
+            case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+                msg="Incomplete layer targets";
+                break;
+        }
+        
+        throw std::runtime_error(msg);
+    }
+    
 }
 
 void VisMgr::DrawWalls()
@@ -294,7 +360,7 @@ void VisMgr::DrawGrid()
     
 }
 
-void VisMgr::DrawPath()
+void VisMgr::DrawPath(bool isBloom)
 {
     glBindVertexArray(_vaos[VAO_PATH]);
     glBindBuffer(GL_ARRAY_BUFFER, _pathBuffs[BUFF_PATH]);
@@ -305,6 +371,7 @@ void VisMgr::DrawPath()
     glUniform1f(glGetUniformLocation(_pathProg,"currTime"),_pathTime);
     ASSERT_GL("ProjMat assign");
     glUniform3fv(glGetUniformLocation(_pathProg,"pathColor"),1,glm::value_ptr(_pathColor));
+    glUniform1i(glGetUniformLocation(_pathProg,"isBloom"),isBloom);
         glDrawArrays(GL_LINE_STRIP,0,_pathVertsCount);
     ASSERT_GL("draw arrays");
     glUseProgram(0);
@@ -316,6 +383,57 @@ void VisMgr::DrawPath()
     
 }
 
+void VisMgr::DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,GLuint inTex)
+{
+    glBindVertexArray(_vaos[VAO_COMPOSITE]);
+    glBindBuffer(GL_ARRAY_BUFFER,_compositeBuff);
+    glUseProgram(_blurProg);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, inTex);
+    glUniform1i(glGetUniformLocation(_blurProg,"src"),0);
+    glUniform2f(glGetUniformLocation(_blurProg,"offset"),xOff,yOff);
+    glUniform1fv(glGetUniformLocation(_blurProg, "kernel"),3,kernel);
+    ASSERT_GL("Texture bound");
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    ASSERT_GL("Comp drawn");
+    glUseProgram(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindVertexArray(0);
+}
+
+void VisMgr::DrawCombine(GLuint* texes)
+{
+    ASSERT_GL("Pre Composite");
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBindVertexArray(_vaos[VAO_COMPOSITE]);
+    glBindBuffer(GL_ARRAY_BUFFER,_compositeBuff);
+    glUseProgram(_combineProg);
+    
+    
+    ASSERT_GL("All samplers bound");
+    for(int i=0; i<TEX_COUNT;++i)
+    {
+        glActiveTexture(GL_TEXTURE0+i);
+        ASSERT_GL("ith texture active");
+        glBindTexture(GL_TEXTURE_2D, texes[i]);
+        ASSERT_GL("ith Texture bound");
+    }
+    glUniform1i(glGetUniformLocation(_combineProg,"src1024"),0);
+    glUniform1i(glGetUniformLocation(_combineProg,"src512"),1);
+    glUniform1i(glGetUniformLocation(_combineProg,"src256"),2);
+    glUniform1i(glGetUniformLocation(_combineProg,"src128"),3);
+    ASSERT_GL("Texture bound");
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    ASSERT_GL("Comp drawn");
+    glUseProgram(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindVertexArray(0);
+    
+}
+
 void VisMgr::DrawComposite()
 {
     ASSERT_GL("Pre Composite");
@@ -323,8 +441,8 @@ void VisMgr::DrawComposite()
     glBindBuffer(GL_ARRAY_BUFFER,_compositeBuff);
     glUseProgram(_compositeProg);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _textures[TEX_COMP]);
-    glBindSampler(glGetUniformLocation(_compositeProg,"srcTx"),0);
+    glBindTexture(GL_TEXTURE_2D, _compTexture);
+    glUniform1i(glGetUniformLocation(_compositeProg,"srcTx"),0);
     ASSERT_GL("Texture bound");
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     ASSERT_GL("Comp drawn");

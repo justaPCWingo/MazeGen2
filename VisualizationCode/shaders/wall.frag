@@ -2,6 +2,7 @@
 
 layout (location=0) out vec4 vColor;
 
+
 uniform vec3 wallColor;
 void main()
 {

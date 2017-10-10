@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		172AFA871F8AE9890001A3DA /* transfer.frag in Resources */ = {isa = PBXBuildFile; fileRef = 172AFA861F8AE9890001A3DA /* transfer.frag */; };
+		172AFA891F8AEBE20001A3DA /* combine.frag in Resources */ = {isa = PBXBuildFile; fileRef = 172AFA881F8AEBE20001A3DA /* combine.frag */; };
+		172AFA8A1F8AED2C0001A3DA /* transfer.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 172AFA861F8AE9890001A3DA /* transfer.frag */; };
+		172AFA8B1F8AED2C0001A3DA /* combine.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 172AFA881F8AEBE20001A3DA /* combine.frag */; };
 		173D224F1F1C347500BAE537 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173D224E1F1C347500BAE537 /* AppDelegate.mm */; };
 		173D22521F1C347500BAE537 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 173D22511F1C347500BAE537 /* main.m */; };
 		173D22551F1C347500BAE537 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173D22541F1C347500BAE537 /* ViewController.mm */; };
@@ -60,6 +64,8 @@
 			dstPath = shaders;
 			dstSubfolderSpec = 16;
 			files = (
+				172AFA8A1F8AED2C0001A3DA /* transfer.frag in CopyFiles */,
+				172AFA8B1F8AED2C0001A3DA /* combine.frag in CopyFiles */,
 				176CE62D1F81CECE005293A5 /* composite.vert in CopyFiles */,
 				176CE62E1F81CECE005293A5 /* composite.frag in CopyFiles */,
 				17B1A11D1F5BC03100573CAB /* path.vert in CopyFiles */,
@@ -77,6 +83,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		172AFA861F8AE9890001A3DA /* transfer.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = transfer.frag; path = VisualizationCode/shaders/transfer.frag; sourceTree = SOURCE_ROOT; };
+		172AFA881F8AEBE20001A3DA /* combine.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = combine.frag; path = VisualizationCode/shaders/combine.frag; sourceTree = SOURCE_ROOT; };
 		173D224B1F1C347500BAE537 /* MG2_Visualization.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MG2_Visualization.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		173D224D1F1C347500BAE537 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		173D224E1F1C347500BAE537 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -213,6 +221,8 @@
 				17B1A11B1F5BBF1E00573CAB /* path.frag */,
 				176CE6291F81CD88005293A5 /* composite.vert */,
 				176CE62B1F81CE3F005293A5 /* composite.frag */,
+				172AFA861F8AE9890001A3DA /* transfer.frag */,
+				172AFA881F8AEBE20001A3DA /* combine.frag */,
 			);
 			name = shaders;
 			sourceTree = "<group>";
@@ -303,7 +313,9 @@
 				17ECDAB71F254EA4002E04C3 /* Assets.xcassets in Resources */,
 				17ECDAC31F25537B002E04C3 /* passThru.frag in Resources */,
 				17B1A11A1F5BBEE300573CAB /* path.vert in Resources */,
+				172AFA871F8AE9890001A3DA /* transfer.frag in Resources */,
 				173D22571F1C347500BAE537 /* Assets.xcassets in Resources */,
+				172AFA891F8AEBE20001A3DA /* combine.frag in Resources */,
 				17572E331F3FD148006CAD6C /* grid.geom in Resources */,
 				17ECDACE1F256F44002E04C3 /* wall.frag in Resources */,
 				17B1A11C1F5BBF1E00573CAB /* path.frag in Resources */,

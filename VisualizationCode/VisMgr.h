@@ -61,17 +61,25 @@ private:
     
     enum
     {
-        TEX_COMP=0,
+        TEX_1024=0,
+        TEX_512,
+        TEX_256,
+        TEX_128,
         
         TEX_COUNT
     };
+    
     ShaderMgr _shdMgr;
     
     GLuint _vaos[VAO_COUNT];
     GLuint _mazeBuffs[BUFF_MAZE_COUNT];
     GLuint _pathBuffs[BUFF_PATH_COUNT];
-    GLuint _textures[TEX_COUNT];
+    GLuint _textures1[TEX_COUNT];
+    GLuint _textures2[TEX_COUNT];
+    GLuint _fbos1[TEX_COUNT];
+    GLuint _fbos2[TEX_COUNT];
     
+    GLuint _compTexture;
     GLuint _compFBO;
     GLuint _depthBuff;
     
@@ -95,6 +103,8 @@ private:
     GLuint _pathProg;
     GLuint _passThruProg;
     GLuint _gridProg;
+    GLuint _blurProg;
+    GLuint _combineProg;
     GLuint _compositeProg;
     GLuint _compositeBuff;
 
@@ -102,9 +112,14 @@ private:
     void InitPathBuffs();
     void InitCompositeBuff();
     
+    void CreateRenderFBO(GLuint & fbo,GLuint & tex,GLuint xdim,GLuint ydim);
+    
+    void DrawMaze(bool isBloom);
     void DrawWalls();
     void DrawGrid();
-    void DrawPath();
+    void DrawPath(bool isBloom);
+    void DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,GLuint inTex);
+    void DrawCombine(GLuint* texes);
     void DrawComposite();
     //void DrawTest();
 
