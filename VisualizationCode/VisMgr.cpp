@@ -71,6 +71,9 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
     _wallColor={1.0,0.0,0.0};
     _gridColor={0.4,0.0,0.0};
     _pathColor={0.0,1.0,1.0};
+    _decayPathColor={.2,.2,.2};
+    _showPath=true;
+    _showDecay=true;
     _actProj=glm::mat4();
     
     for(unsigned int i=0; i<VAO_COUNT;++i)
@@ -135,7 +138,8 @@ void VisMgr::Draw()
     DrawMaze(false);
     
     //do blur composites for downscale
-    GLuint dims=1024;
+    GLuint highDims=1024;
+    GLuint dims=highDims;
     for(unsigned int i=0;i<TEX_COUNT;++i,dims/=2)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos1[i]);
@@ -144,22 +148,37 @@ void VisMgr::Draw()
         DrawMaze(true);
     }
     
+    //http://harkal.sylphis3d.com/2006/05/20/how-to-do-good-bloom-for-hdr-rendering/
+    dims=highDims;
+    GLfloat kernel3[]={1./16.,2./16.,1./16};
+    GLfloat kernel5[]={1./81.,2./81.,3./81.,2./81.,1./81.};
+    GLfloat kernel11[]={1./1296.,2./1296.,3./1296.,4./1296.,5./1296.,6./1296.,5./1296.,4./1296.,3./1296.,2./1296.,1./1296.};
+    GLfloat kernel21[]={1./14641.,2./14641.,3./14641.,4./14641.,5./14641.,6./14641.,7./14641.,8./14641.,9./14641.,10./14641.,
+        11./14641.,10./14641.,9./14641.,8./14641.,7./14641.,6./14641.,5./14641.,4./14641.,3./14641.,2./14641.,1./14641.};
+    GLfloat kernel41[]={1./194481.,2./194481.,3./194481.,4./194481.,5./194481.,6./194481.,7./194481.,8./194481.,9./194481.,
+        10./194481.,11./194481.,12./194481.,13./194481.,14./194481.,15./194481.,16./194481.,17./194481.,18./194481.,
+        19./194481.,20./194481.,21./194481.,20./194481.,19./194481.,18./194481.,17./194481.,16./194481.,15./194481.,
+        14./194481.,13./194481.,12./194481.,11./194481.,10./194481.,9./194481.,8./194481.,7./194481.,6./194481.,
+        5./194481.,4./194481.,3./194481.,2./194481.,1./194481.};
     
-    dims=1024;
-    GLfloat kernel[]={5./16.,6./16.,5./16.};
+    GLfloat* kernels[]={kernel5,kernel11,kernel21,kernel41};
+#define PW_ARR_SIZE(x) sizeof(x)/sizeof(GLfloat)
+    unsigned int kLens[]={PW_ARR_SIZE(kernel5),PW_ARR_SIZE(kernel11),PW_ARR_SIZE(kernel21),PW_ARR_SIZE(kernel41)};
+#undef PW_ARR_SIZE
+    //todo:add Multiple passes to smooth blue effect
     for(unsigned int i=0;i<TEX_COUNT;++i,dims/=2)
     {
         //do horizontal blur
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos2[i]);
         glViewport(0,0,dims,dims);
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        DrawBlur(1.2/dims, 0.0, kernel, _textures1[i]);
+        DrawBlur(1./dims, 0.0, kernel5, sizeof(kernel5)/sizeof(GLfloat),_textures1[i]);
         
         //do vertical blur
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos1[i]);
         glViewport(0,0,dims,dims);
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        DrawBlur(0.0, 1.2/dims, kernel, _textures2[i]);
+        DrawBlur(0.0, 1./dims, kernel5, sizeof(kernel5)/sizeof(GLfloat),_textures2[i]);
     }
     
     
@@ -174,6 +193,7 @@ void VisMgr::Draw()
     
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     DrawComposite();
+    //DrawCombine(_textures1);
     //DrawTest();
     //[self drawPath]
     
@@ -371,7 +391,9 @@ void VisMgr::DrawPath(bool isBloom)
     glUniform1f(glGetUniformLocation(_pathProg,"currTime"),_pathTime);
     ASSERT_GL("ProjMat assign");
     glUniform3fv(glGetUniformLocation(_pathProg,"pathColor"),1,glm::value_ptr(_pathColor));
-    glUniform1i(glGetUniformLocation(_pathProg,"isBloom"),isBloom);
+    glUniform3fv(glGetUniformLocation(_pathProg,"decayColor"),1,glm::value_ptr(_showDecay ? _decayPathColor : _pathColor));
+    glUniform1f(glGetUniformLocation(_pathProg, "decayDelay"),5.0);
+    glUniform1i(glGetUniformLocation(_pathProg,"isBloom"),isBloom || !_showPath);
         glDrawArrays(GL_LINE_STRIP,0,_pathVertsCount);
     ASSERT_GL("draw arrays");
     glUseProgram(0);
@@ -383,8 +405,10 @@ void VisMgr::DrawPath(bool isBloom)
     
 }
 
-void VisMgr::DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,GLuint inTex)
+void VisMgr::DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,const unsigned int & kLen,GLuint inTex)
 {
+
+    
     glBindVertexArray(_vaos[VAO_COMPOSITE]);
     glBindBuffer(GL_ARRAY_BUFFER,_compositeBuff);
     glUseProgram(_blurProg);
@@ -392,7 +416,9 @@ void VisMgr::DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,GLuint inT
     glBindTexture(GL_TEXTURE_2D, inTex);
     glUniform1i(glGetUniformLocation(_blurProg,"src"),0);
     glUniform2f(glGetUniformLocation(_blurProg,"offset"),xOff,yOff);
-    glUniform1fv(glGetUniformLocation(_blurProg, "kernel"),3,kernel);
+    glUniform1fv(glGetUniformLocation(_blurProg, "kernel"),kLen,kernel);
+    glUniform1i(glGetUniformLocation(_blurProg, "kBound"),kLen/2); //rely on integer to truncate
+    
     ASSERT_GL("Texture bound");
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     ASSERT_GL("Comp drawn");
@@ -411,7 +437,6 @@ void VisMgr::DrawCombine(GLuint* texes)
     glBindBuffer(GL_ARRAY_BUFFER,_compositeBuff);
     glUseProgram(_combineProg);
     
-    
     ASSERT_GL("All samplers bound");
     for(int i=0; i<TEX_COUNT;++i)
     {
@@ -420,10 +445,10 @@ void VisMgr::DrawCombine(GLuint* texes)
         glBindTexture(GL_TEXTURE_2D, texes[i]);
         ASSERT_GL("ith Texture bound");
     }
-    glUniform1i(glGetUniformLocation(_combineProg,"src1024"),0);
-    glUniform1i(glGetUniformLocation(_combineProg,"src512"),1);
-    glUniform1i(glGetUniformLocation(_combineProg,"src256"),2);
-    glUniform1i(glGetUniformLocation(_combineProg,"src128"),3);
+    glUniform1i(glGetUniformLocation(_combineProg,"src16"),0);
+    glUniform1i(glGetUniformLocation(_combineProg,"src4"),1);
+    glUniform1i(glGetUniformLocation(_combineProg,"src2"),2);
+    glUniform1i(glGetUniformLocation(_combineProg,"src1"),3);
     ASSERT_GL("Texture bound");
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     ASSERT_GL("Comp drawn");
@@ -431,7 +456,7 @@ void VisMgr::DrawCombine(GLuint* texes)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
-    
+    glDisable(GL_BLEND);
 }
 
 void VisMgr::DrawComposite()
@@ -585,7 +610,7 @@ void VisMgr::RefreshWithMaze(MazeBuilder* bldr)
     }
     ASSERT_GL("PreSubData");
 
-    DbgDumpMaze(bldr);
+    //DbgDumpMaze(bldr);
 //    for (MInd i=0; i< _wVertCount; ++i)
 //        std::cout<<std::setw(2)<<i<<" Wall: "<<_wallVerts[i].wall<<std::endl;
     glBindVertexArray(_vaos[VAO_MAZE]);
@@ -628,7 +653,7 @@ void VisMgr::BuildPath(MazeBuilder* bldr)
         {
             _pathVerts[i]=MazeCellVert(bldr->ColForIndex(ind)+0.5,bldr->RowForIndex(ind)+0.5);
             _pathVerts[i].step=i;
-            std::cout<<_pathVerts[i].x<<", "<<_pathVerts[i].y<<std::endl;
+            //std::cout<<_pathVerts[i].x<<", "<<_pathVerts[i].y<<std::endl;
             ++i;
         }
         MInd fInd=bldr->GetFinish();
@@ -732,6 +757,78 @@ void VisMgr::SetViewport(GLint x, GLint y, GLint width, GLint height)
     _vpWidth=width;
     _vpHeight=height;
 }
+
+glm::vec3 VisMgr::GetGridColor() const
+{
+    return _gridColor;
+}
+
+glm::vec3 VisMgr::GetWallColor() const
+{ 
+    return _wallColor;
+}
+
+glm::vec3 VisMgr::GetPathColor() const
+{
+    return _pathColor;
+}
+
+glm::vec3 VisMgr::GetDecayedPathColor() const
+{ 
+    return _decayPathColor;
+}
+
+bool VisMgr::GetShowFullPath() const
+{
+    return _showPath;
+}
+
+bool VisMgr::GetShowPathDecay() const
+{
+    return _showDecay;
+}
+
+void VisMgr::SetGridColor(const glm::vec3 &gc)
+{
+    _gridColor=gc;
+}
+
+void VisMgr::SetWallColor(const glm::vec3 &wc)
+{
+    _wallColor=wc;
+}
+
+void VisMgr::SetPathColor(const glm::vec3 &pc)
+{
+    _pathColor=pc;
+}
+
+void VisMgr::SetDecayedPathColor(const glm::vec3 &dpc)
+{
+    _decayPathColor=dpc;
+}
+
+void VisMgr::SetShowFullPath(bool showFull)
+{
+    _showPath=showFull;
+}
+
+void VisMgr::SetShowPathDecay(bool showDecay) { 
+    _showDecay=showDecay;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

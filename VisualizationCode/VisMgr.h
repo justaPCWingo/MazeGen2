@@ -34,6 +34,23 @@ public:
     
     void SetViewport(GLint x,GLint y,GLint width,GLint height);
     
+    //getters for display properties
+    glm::vec3 GetGridColor() const;
+    glm::vec3 GetWallColor() const;
+    glm::vec3 GetPathColor() const;
+    glm::vec3 GetDecayedPathColor() const;
+    bool GetShowFullPath() const;
+    bool GetShowPathDecay() const;
+    
+    //setters for display properties
+    void SetGridColor(const glm::vec3 & gc);
+    void SetWallColor(const glm::vec3 & wc);
+    void SetPathColor(const glm::vec3 & pc);
+    void SetDecayedPathColor(const glm::vec3 & dpc);
+    void SetShowFullPath(bool showFull);
+    void SetShowPathDecay(bool showDecay);
+    
+    //debug utilties
     static void DbgDumpMaze(MazeBuilder* bldr);
 private:
     
@@ -89,6 +106,10 @@ private:
     glm::vec3 _wallColor;
     glm::vec3 _gridColor;
     glm::vec3 _pathColor;
+    glm::vec3 _decayPathColor;
+    
+    bool _showPath;
+    bool _showDecay;
     
     GLfloat _pathTime;
     
@@ -118,7 +139,7 @@ private:
     void DrawWalls();
     void DrawGrid();
     void DrawPath(bool isBloom);
-    void DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,GLuint inTex);
+    void DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,const unsigned int & kLen,GLuint inTex);
     void DrawCombine(GLuint* texes);
     void DrawComposite();
     //void DrawTest();

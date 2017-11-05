@@ -22,4 +22,12 @@
 
 -(void)newMaze:(MazeBuilder*)bldr;
 -(void)refreshWithMaze:(MazeBuilder*)bldr;
+
+@property(getter=getGridColor,setter=setGridColor:) NSColor* gridColor;
+@property(getter=getWallColor,setter=setWallColor:) NSColor* wallColor;
+@property(getter=getPathColor,setter=setPathColor:) NSColor* pathColor;
+@property(getter=getDecayColor,setter=setDecayColor:) NSColor* decayColor;
+@property(getter=getDrawPath,setter=setDrawPath:) BOOL drawFullPath;
+@property(getter=getDrawDecay,setter=setDrawDecay:) BOOL showPathDecayColor;
+
 @end

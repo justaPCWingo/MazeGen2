@@ -16,10 +16,19 @@
 @interface ViewController : NSViewController
 {
     IBOutlet MGOpenGLView* _glView;
+    IBOutlet NSColorWell* _gridWell;
+    IBOutlet NSColorWell* _pathWell;
+    IBOutlet NSColorWell* _wallWell;
+    IBOutlet NSColorWell* _decayWell;
+    IBOutlet NSButton* _fullPathCB;
+    IBOutlet NSButton* _decayCB;
     
     MazeBuilder* _bldr;
 }
 -(IBAction)RefreshMaze:(id)sender;
+-(IBAction)UpdateFromFullPathCB:(id)sender;
+-(IBAction)UpdateFromDecayCB:(id)sender;
 
+@property(readonly) MGOpenGLView* glView;
 @end
 

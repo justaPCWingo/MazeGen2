@@ -699,28 +699,171 @@
                                     <action selector="RefreshMaze:" target="XfG-lQ-9wD" id="j9j-9H-WtM"/>
                                 </connections>
                             </button>
-                            <openGLView misplaced="YES" depthSize="32bit" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N0m-1U-0co" customClass="MGOpenGLView">
+                            <openGLView depthSize="32bit" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N0m-1U-0co" customClass="MGOpenGLView">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="1024"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="9IH-hk-sYO"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="eI7-OC-ZDt"/>
                                 </constraints>
                             </openGLView>
+                            <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="xks-EW-zhp">
+                                <rect key="frame" x="1118" y="984" width="44" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="GfO-W3-7hR"/>
+                                    <constraint firstAttribute="width" constant="44" id="uWJ-1J-F4z"/>
+                                </constraints>
+                                <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="glView.gridColor" id="1hf-06-keE">
+                                        <dictionary key="options">
+                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                            <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </colorWell>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ahB-1D-cwT">
+                                <rect key="frame" x="1042" y="987" width="70" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Grid Color:" id="Etr-LQ-Rki">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="m8C-60-U9h">
+                                <rect key="frame" x="1118" y="953" width="44" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="gqb-52-PZ5"/>
+                                    <constraint firstAttribute="width" constant="44" id="nhs-Dy-TCj"/>
+                                </constraints>
+                                <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="glView.wallColor" id="Bwx-4b-RFk">
+                                        <dictionary key="options">
+                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                            <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </colorWell>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vGA-K6-XXH">
+                                <rect key="frame" x="1042" y="956" width="70" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Wall Color:" id="jMV-2D-1Cr">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="DUV-U5-kTq">
+                                <rect key="frame" x="1118" y="919" width="44" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="4UM-Vj-dDz"/>
+                                    <constraint firstAttribute="height" constant="23" id="HhR-8M-aKI"/>
+                                </constraints>
+                                <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="glView.pathColor" id="YGR-vT-sT5">
+                                        <dictionary key="options">
+                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                            <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </colorWell>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KTl-1U-Zia">
+                                <rect key="frame" x="1040" y="922" width="72" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Path Color:" id="Yrt-6I-6tn">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="fTf-0D-Ddw">
+                                <rect key="frame" x="1118" y="839" width="44" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="0LG-yv-lOf"/>
+                                    <constraint firstAttribute="width" constant="44" id="bbT-p9-82h"/>
+                                </constraints>
+                                <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="glView.decayColor" id="4Vn-xB-Grq">
+                                        <dictionary key="options">
+                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                            <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </colorWell>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="P0O-Ja-P9e">
+                                <rect key="frame" x="1042" y="888" width="109" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show full path" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="y7C-P6-ghA">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="UpdateFromFullPathCB:" target="XfG-lQ-9wD" id="5Ma-vQ-0Nj"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="dDE-0I-PTj">
+                                <rect key="frame" x="1042" y="868" width="127" height="18"/>
+                                <buttonCell key="cell" type="check" title="Decay Path Color" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4Z6-Y7-Lvk">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="UpdateFromDecayCB:" target="XfG-lQ-9wD" id="LPb-oc-aRm"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eWv-wg-01T">
+                                <rect key="frame" x="1030" y="842" width="82" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Decay Color:" id="REL-J6-Gf1">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="DUV-U5-kTq" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="1wI-Be-oRV"/>
+                            <constraint firstItem="vGA-K6-XXH" firstAttribute="trailing" secondItem="ahB-1D-cwT" secondAttribute="trailing" id="4en-ie-ora"/>
                             <constraint firstAttribute="bottom" secondItem="N0m-1U-0co" secondAttribute="bottom" id="51X-pO-OHY"/>
                             <constraint firstItem="N0m-1U-0co" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="6QM-i4-Eqb"/>
-                            <constraint firstAttribute="trailing" secondItem="N0m-1U-0co" secondAttribute="trailing" constant="103" id="HJo-7A-2Ot"/>
-                            <constraint firstItem="ul1-yg-6uz" firstAttribute="leading" secondItem="N0m-1U-0co" secondAttribute="trailing" constant="8" symbolic="YES" id="ILW-TA-PNz"/>
+                            <constraint firstItem="eWv-wg-01T" firstAttribute="trailing" secondItem="ahB-1D-cwT" secondAttribute="trailing" id="6YZ-1q-1oM"/>
+                            <constraint firstAttribute="trailing" secondItem="P0O-Ja-P9e" secondAttribute="trailing" constant="51" id="7XZ-Fp-Rc2"/>
+                            <constraint firstItem="xks-EW-zhp" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="17" id="Aap-H1-OsS"/>
+                            <constraint firstItem="fTf-0D-Ddw" firstAttribute="centerY" secondItem="eWv-wg-01T" secondAttribute="centerY" id="Aga-Dx-KgC"/>
+                            <constraint firstItem="m8C-60-U9h" firstAttribute="centerY" secondItem="vGA-K6-XXH" secondAttribute="centerY" id="CGG-fn-F1J"/>
+                            <constraint firstItem="m8C-60-U9h" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="FL8-3c-X2C"/>
+                            <constraint firstAttribute="trailing" secondItem="N0m-1U-0co" secondAttribute="trailing" constant="176" id="HJo-7A-2Ot"/>
+                            <constraint firstItem="ul1-yg-6uz" firstAttribute="leading" secondItem="N0m-1U-0co" secondAttribute="trailing" constant="81" id="ILW-TA-PNz"/>
                             <constraint firstItem="N0m-1U-0co" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Jhw-Uy-VuL"/>
+                            <constraint firstAttribute="trailing" secondItem="dDE-0I-PTj" secondAttribute="trailing" constant="33" id="KiS-XV-aoh"/>
+                            <constraint firstItem="m8C-60-U9h" firstAttribute="top" secondItem="xks-EW-zhp" secondAttribute="bottom" constant="8" id="Kks-br-FkT"/>
                             <constraint firstAttribute="bottom" secondItem="ul1-yg-6uz" secondAttribute="bottom" constant="20" symbolic="YES" id="QxU-Fr-RA4"/>
+                            <constraint firstItem="dDE-0I-PTj" firstAttribute="top" secondItem="P0O-Ja-P9e" secondAttribute="bottom" constant="6" id="Roy-iS-mxR"/>
+                            <constraint firstItem="KTl-1U-Zia" firstAttribute="trailing" secondItem="ahB-1D-cwT" secondAttribute="trailing" id="Uq3-nD-ki1"/>
+                            <constraint firstItem="fTf-0D-Ddw" firstAttribute="top" secondItem="dDE-0I-PTj" secondAttribute="bottom" constant="8" id="WMU-Sm-EcK"/>
+                            <constraint firstItem="P0O-Ja-P9e" firstAttribute="top" secondItem="DUV-U5-kTq" secondAttribute="bottom" constant="15" id="WrO-OX-ffi"/>
+                            <constraint firstItem="DUV-U5-kTq" firstAttribute="top" secondItem="m8C-60-U9h" secondAttribute="bottom" constant="11" id="e14-VQ-1Dw"/>
+                            <constraint firstItem="xks-EW-zhp" firstAttribute="leading" secondItem="ahB-1D-cwT" secondAttribute="trailing" constant="8" id="hkf-Iy-o2Q"/>
+                            <constraint firstAttribute="trailing" secondItem="xks-EW-zhp" secondAttribute="trailing" constant="38" id="lxh-Wl-opB"/>
+                            <constraint firstItem="DUV-U5-kTq" firstAttribute="centerY" secondItem="KTl-1U-Zia" secondAttribute="centerY" id="qOf-6t-Pq9"/>
+                            <constraint firstItem="xks-EW-zhp" firstAttribute="centerY" secondItem="ahB-1D-cwT" secondAttribute="centerY" id="xtS-tv-zlT"/>
+                            <constraint firstItem="fTf-0D-Ddw" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="ya7-Ka-JFP"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="_decayCB" destination="dDE-0I-PTj" id="HvL-60-Dns"/>
+                        <outlet property="_decayWell" destination="fTf-0D-Ddw" id="Klg-DZ-6yF"/>
+                        <outlet property="_fullPathCB" destination="P0O-Ja-P9e" id="RQw-Kb-TaB"/>
                         <outlet property="_glView" destination="N0m-1U-0co" id="x4T-BI-N1d"/>
+                        <outlet property="_gridWell" destination="xks-EW-zhp" id="jyP-Sm-aqA"/>
+                        <outlet property="_pathWell" destination="DUV-U5-kTq" id="xfu-ej-ffh"/>
+                        <outlet property="_wallWell" destination="m8C-60-U9h" id="fWL-Jb-tKz"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="TyL-N8-3za"/>
             </objects>
             <point key="canvasLocation" x="-367" y="537"/>
         </scene>

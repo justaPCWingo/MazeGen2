@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 @implementation ViewController
+@synthesize glView=_glView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -16,7 +17,8 @@
     // Do any additional setup after loading the view.
     _bldr=new MazeBuilder(16,16);
     
-    
+    [_glView addObserver:self forKeyPath:@"drawFullPath" options:0 context:nil];
+    [_glView addObserver:self forKeyPath:@"showPathDecayColor" options:0 context:nil];
 }
 
 
@@ -28,7 +30,11 @@
 
 - (void)viewWillAppear
 {
+    
     [_glView newMaze:_bldr];
+    //update check boxes
+    
+    
 }
 
 -(IBAction)RefreshMaze:(id)sender
@@ -47,8 +53,32 @@
     }
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey, id> *)change
+                       context:(void *)context
+{
+    if([keyPath isEqualToString:@"drawFullPath"])
+        [_fullPathCB setState:_glView.drawFullPath ? NSOnState : NSOffState];
+    else if ([keyPath isEqualToString:@"showPathDecayColor"])
+        [_decayCB setState:_glView.showPathDecayColor ? NSOnState : NSOffState];
+    
+}
+
+-(IBAction)UpdateFromFullPathCB:(id)sender
+{
+    _glView.drawFullPath=[sender state]==NSOnState;
+}
+
+-(IBAction)UpdateFromDecayCB:(id)sender
+{
+    _glView.showPathDecayColor=[sender state]==NSOnState;
+}
+
 -(void)dealloc
 {
+    [_glView removeObserver:self forKeyPath:@"drawFullPath"];
+    [_glView removeObserver:self forKeyPath:@"showPathDecayColor"];
     delete _bldr;
 }
 @end
