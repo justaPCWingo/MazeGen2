@@ -29,5 +29,5 @@
 @property(getter=getDecayColor,setter=setDecayColor:) NSColor* decayColor;
 @property(getter=getDrawPath,setter=setDrawPath:) BOOL drawFullPath;
 @property(getter=getDrawDecay,setter=setDrawDecay:) BOOL showPathDecayColor;
-
+@property(getter=getDecayDelay,setter=setDecayDelay:) float decayDelay;
 @end

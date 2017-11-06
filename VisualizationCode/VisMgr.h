@@ -41,6 +41,7 @@ public:
     glm::vec3 GetDecayedPathColor() const;
     bool GetShowFullPath() const;
     bool GetShowPathDecay() const;
+    float GetDecayDelay() const;
     
     //setters for display properties
     void SetGridColor(const glm::vec3 & gc);
@@ -49,6 +50,7 @@ public:
     void SetDecayedPathColor(const glm::vec3 & dpc);
     void SetShowFullPath(bool showFull);
     void SetShowPathDecay(bool showDecay);
+    void SetDecayDelay(float delay);
     
     //debug utilties
     static void DbgDumpMaze(MazeBuilder* bldr);
@@ -111,6 +113,7 @@ private:
     bool _showPath;
     bool _showDecay;
     
+    float _decayDelay;
     GLfloat _pathTime;
     
     MazeCellVert *_wallVerts;

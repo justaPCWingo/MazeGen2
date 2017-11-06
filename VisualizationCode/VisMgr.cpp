@@ -74,6 +74,8 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
     _decayPathColor={.2,.2,.2};
     _showPath=true;
     _showDecay=true;
+    _decayDelay=5.0;
+    
     _actProj=glm::mat4();
     
     for(unsigned int i=0; i<VAO_COUNT;++i)
@@ -172,13 +174,13 @@ void VisMgr::Draw()
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos2[i]);
         glViewport(0,0,dims,dims);
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        DrawBlur(1./dims, 0.0, kernel5, sizeof(kernel5)/sizeof(GLfloat),_textures1[i]);
+        DrawBlur(1./dims, 0.0, kernel3, sizeof(kernel3)/sizeof(GLfloat),_textures1[i]);
         
         //do vertical blur
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos1[i]);
         glViewport(0,0,dims,dims);
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        DrawBlur(0.0, 1./dims, kernel5, sizeof(kernel5)/sizeof(GLfloat),_textures2[i]);
+        DrawBlur(0.0, 1./dims, kernel3, sizeof(kernel3)/sizeof(GLfloat),_textures2[i]);
     }
     
     
@@ -392,7 +394,7 @@ void VisMgr::DrawPath(bool isBloom)
     ASSERT_GL("ProjMat assign");
     glUniform3fv(glGetUniformLocation(_pathProg,"pathColor"),1,glm::value_ptr(_pathColor));
     glUniform3fv(glGetUniformLocation(_pathProg,"decayColor"),1,glm::value_ptr(_showDecay ? _decayPathColor : _pathColor));
-    glUniform1f(glGetUniformLocation(_pathProg, "decayDelay"),5.0);
+    glUniform1f(glGetUniformLocation(_pathProg, "decayDelay"),_decayDelay);
     glUniform1i(glGetUniformLocation(_pathProg,"isBloom"),isBloom || !_showPath);
         glDrawArrays(GL_LINE_STRIP,0,_pathVertsCount);
     ASSERT_GL("draw arrays");
@@ -813,9 +815,22 @@ void VisMgr::SetShowFullPath(bool showFull)
     _showPath=showFull;
 }
 
-void VisMgr::SetShowPathDecay(bool showDecay) { 
+void VisMgr::SetShowPathDecay(bool showDecay)
+{
     _showDecay=showDecay;
 }
+
+float VisMgr::GetDecayDelay() const
+{
+    return _decayDelay;
+}
+
+void VisMgr::SetDecayDelay(float delay)
+{
+    _decayDelay=delay;
+}
+
+
 
 
 

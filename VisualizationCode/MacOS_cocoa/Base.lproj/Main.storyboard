@@ -822,6 +822,54 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jPA-Nm-0Dr">
+                                <rect key="frame" x="1118" y="809" width="43" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="jMN-sV-1X4"/>
+                                    <constraint firstAttribute="width" constant="43" id="w4C-Uc-ZYL"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="1" drawsBackground="YES" id="cY5-Cu-udL">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="7Rx-tX-Myg">
+                                        <real key="minimum" value="0.10000000000000001"/>
+                                        <real key="maximum" value="100"/>
+                                    </numberFormatter>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="glView.decayDelay" id="5QQ-hN-gfZ">
+                                        <dictionary key="options">
+                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </textField>
+                            <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Wv-2W-pSL">
+                                <rect key="frame" x="1157" y="807" width="19" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="e5H-t2-6yv"/>
+                                    <constraint firstAttribute="width" constant="13" id="fxr-J3-Trj"/>
+                                </constraints>
+                                <stepperCell key="cell" continuous="YES" alignment="left" increment="0.5" minValue="0.10000000000000001" maxValue="20" doubleValue="0.10000000000000001" id="gEr-2o-MdE"/>
+                                <connections>
+                                    <binding destination="XfG-lQ-9wD" name="value" keyPath="glView.decayDelay" id="ix9-sk-BDF">
+                                        <dictionary key="options">
+                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                            <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </stepper>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RoM-0x-WOB">
+                                <rect key="frame" x="1029" y="812" width="83" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Decay Delay:" id="G7q-ee-XSK">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="1wI-Be-oRV"/>
@@ -835,21 +883,27 @@
                             <constraint firstItem="m8C-60-U9h" firstAttribute="centerY" secondItem="vGA-K6-XXH" secondAttribute="centerY" id="CGG-fn-F1J"/>
                             <constraint firstItem="m8C-60-U9h" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="FL8-3c-X2C"/>
                             <constraint firstAttribute="trailing" secondItem="N0m-1U-0co" secondAttribute="trailing" constant="176" id="HJo-7A-2Ot"/>
+                            <constraint firstItem="5Wv-2W-pSL" firstAttribute="bottom" secondItem="jPA-Nm-0Dr" secondAttribute="bottom" id="ICc-No-PbX"/>
                             <constraint firstItem="ul1-yg-6uz" firstAttribute="leading" secondItem="N0m-1U-0co" secondAttribute="trailing" constant="81" id="ILW-TA-PNz"/>
                             <constraint firstItem="N0m-1U-0co" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Jhw-Uy-VuL"/>
                             <constraint firstAttribute="trailing" secondItem="dDE-0I-PTj" secondAttribute="trailing" constant="33" id="KiS-XV-aoh"/>
                             <constraint firstItem="m8C-60-U9h" firstAttribute="top" secondItem="xks-EW-zhp" secondAttribute="bottom" constant="8" id="Kks-br-FkT"/>
+                            <constraint firstItem="jPA-Nm-0Dr" firstAttribute="centerY" secondItem="RoM-0x-WOB" secondAttribute="centerY" id="NBD-SC-2jM"/>
+                            <constraint firstItem="jPA-Nm-0Dr" firstAttribute="top" secondItem="fTf-0D-Ddw" secondAttribute="bottom" constant="8" id="Qoj-Lb-Zyr"/>
                             <constraint firstAttribute="bottom" secondItem="ul1-yg-6uz" secondAttribute="bottom" constant="20" symbolic="YES" id="QxU-Fr-RA4"/>
                             <constraint firstItem="dDE-0I-PTj" firstAttribute="top" secondItem="P0O-Ja-P9e" secondAttribute="bottom" constant="6" id="Roy-iS-mxR"/>
                             <constraint firstItem="KTl-1U-Zia" firstAttribute="trailing" secondItem="ahB-1D-cwT" secondAttribute="trailing" id="Uq3-nD-ki1"/>
                             <constraint firstItem="fTf-0D-Ddw" firstAttribute="top" secondItem="dDE-0I-PTj" secondAttribute="bottom" constant="8" id="WMU-Sm-EcK"/>
                             <constraint firstItem="P0O-Ja-P9e" firstAttribute="top" secondItem="DUV-U5-kTq" secondAttribute="bottom" constant="15" id="WrO-OX-ffi"/>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="top" secondItem="m8C-60-U9h" secondAttribute="bottom" constant="11" id="e14-VQ-1Dw"/>
+                            <constraint firstAttribute="trailing" secondItem="5Wv-2W-pSL" secondAttribute="trailing" constant="27" id="eJQ-LA-yvh"/>
                             <constraint firstItem="xks-EW-zhp" firstAttribute="leading" secondItem="ahB-1D-cwT" secondAttribute="trailing" constant="8" id="hkf-Iy-o2Q"/>
+                            <constraint firstItem="5Wv-2W-pSL" firstAttribute="leading" secondItem="RoM-0x-WOB" secondAttribute="trailing" constant="50" id="jLm-2a-VzZ"/>
                             <constraint firstAttribute="trailing" secondItem="xks-EW-zhp" secondAttribute="trailing" constant="38" id="lxh-Wl-opB"/>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="centerY" secondItem="KTl-1U-Zia" secondAttribute="centerY" id="qOf-6t-Pq9"/>
                             <constraint firstItem="xks-EW-zhp" firstAttribute="centerY" secondItem="ahB-1D-cwT" secondAttribute="centerY" id="xtS-tv-zlT"/>
                             <constraint firstItem="fTf-0D-Ddw" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="ya7-Ka-JFP"/>
+                            <constraint firstItem="jPA-Nm-0Dr" firstAttribute="centerX" secondItem="fTf-0D-Ddw" secondAttribute="centerX" id="zDD-Bu-hTh"/>
                         </constraints>
                     </view>
                     <connections>

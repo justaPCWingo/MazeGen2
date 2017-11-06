@@ -75,6 +75,7 @@
     [self willChangeValueForKey:@"decayColor"];
     [self willChangeValueForKey:@"drawFullPath"];
     [self willChangeValueForKey:@"showPathDecayColor"];
+    [self willChangeValueForKey:@"decayDelay"];
     _visMgr=new VisMgr(SHADERS_DIR,bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
     _visMgr->InitForOpenGL();
     [self didChangeValueForKey:@"gridColor"];
@@ -83,6 +84,7 @@
     [self didChangeValueForKey:@"decayColor"];
     [self didChangeValueForKey:@"drawFullPath"];
     [self didChangeValueForKey:@"showPathDecayColor"];
+    [self didChangeValueForKey:@"decayDelay"];
     //_visMgr->InitTest();
 }
 
@@ -138,22 +140,41 @@ PW_VIS_COLOR(getDecayColor,setDecayColor, GetDecayedPathColor,SetDecayedPathColo
 
 -(BOOL)getDrawPath
 {
-    return _visMgr->GetShowFullPath();
+    if(_visMgr)
+        return _visMgr->GetShowFullPath();
+    return NO;
 }
 
 -(void)setDrawPath:(BOOL)drawPath
 {
-    _visMgr->SetShowFullPath(drawPath);
+    if(_visMgr)
+        _visMgr->SetShowFullPath(drawPath);
 }
 
 -(BOOL)getDrawDecay
 {
-    return _visMgr->GetShowPathDecay();
+    if(_visMgr)
+        return _visMgr->GetShowPathDecay();
+    return NO;
 }
 
 -(void)setDrawDecay:(BOOL)showDecay
 {
-    _visMgr->SetShowPathDecay(showDecay);
+    if(_visMgr)
+        _visMgr->SetShowPathDecay(showDecay);
+}
+
+-(float)getDecayDelay
+{
+    if(_visMgr)
+        return _visMgr->GetDecayDelay();
+    return 0.1;
+}
+
+-(void)setDecayDelay:(float)delay
+{
+    if(_visMgr)
+        _visMgr->SetDecayDelay(delay);
 }
 
 -(void)dealloc

@@ -18,7 +18,7 @@ void main()
     float timeDiff=currTime-threshold;
     if (timeDiff>decayDelay)
     {
-        vColor=mix(vColor,vec4(decayColor,1.0),clamp(timeDiff-5.0,0.0,1.0));
+        vColor=mix(vColor,vec4(decayColor,1.0),clamp(timeDiff-decayDelay,0.0,1.0));
     }
 
 }
