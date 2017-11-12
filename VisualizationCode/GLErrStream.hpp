@@ -15,7 +15,7 @@
 #include<OpenGL/gl.h>
 #endif
 
-void GLPrintErr(const char* name, const char* file, const int line)
+inline void GLPrintErr(const char* name, const char* file, const int line)
 {
     unsigned int err=glGetError();
     const char* outStr;

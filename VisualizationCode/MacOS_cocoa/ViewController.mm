@@ -28,10 +28,10 @@
     // Update the view, if already loaded.
     }
 
-- (void)viewWillAppear
+- (void)viewDidLayout
 {
-    
-    [_glView newMaze:_bldr];
+    [super viewDidLayout];
+    //[_glView newMaze:_bldr];
     //update check boxes
     
     

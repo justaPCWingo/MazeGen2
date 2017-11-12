@@ -21,7 +21,7 @@
 //...
 #endif
 
-
+#define HIGH_DIM 512
 #define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
 
 struct MazeCellVert {
@@ -65,6 +65,7 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
 ,_vpY(y)
 ,_vpWidth(width)
 ,_vpHeight(height)
+,_glowIntensity(0.25)
 {
     _shdMgr=ShaderMgr(shadDir);
     
@@ -101,7 +102,7 @@ void VisMgr::InitForOpenGL()
 {
     
     glGenVertexArrays( VAO_COUNT, _vaos );
-    
+    ASSERT_GL("Post VAO Generation");
     //load shaders
     //_shdMgr.LoadShaderProgramSet("passthru");
     _wallProg=_shdMgr.LoadShaderProgramSet("wall");
@@ -115,7 +116,7 @@ void VisMgr::InitForOpenGL()
     _combineProg=_shdMgr.LoadShaderProgram("combine","composite.vert","combine.frag");
     
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    
+    ASSERT_GL("All Shaders Loaded");
 }
 
 void VisMgr::DrawMaze(bool isBloom)
@@ -129,19 +130,21 @@ void VisMgr::DrawMaze(bool isBloom)
 void VisMgr::Draw()
 {
     // Drawing code here.
+    ASSERT_GL("BASE DRAW START");
     glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
     GLenum buffsToDraw[]={GL_COLOR_ATTACHMENT0};
     glDrawBuffers(1, buffsToDraw);
+    ASSERT_GL("BLAM");
     glViewport(0, 0, 1024, 1024);
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);                // clear the window
-
+    ASSERT_GL("BASE DRAW STOP");
     //draw base maze
     DrawMaze(false);
     
     //do blur composites for downscale
-    GLuint highDims=1024;
-    GLuint dims=highDims;
+    
+    GLuint dims=HIGH_DIM;
     for(unsigned int i=0;i<TEX_COUNT;++i,dims/=2)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos1[i]);
@@ -151,36 +154,23 @@ void VisMgr::Draw()
     }
     
     //http://harkal.sylphis3d.com/2006/05/20/how-to-do-good-bloom-for-hdr-rendering/
-    dims=highDims;
-    GLfloat kernel3[]={1./16.,2./16.,1./16};
-    GLfloat kernel5[]={1./81.,2./81.,3./81.,2./81.,1./81.};
-    GLfloat kernel11[]={1./1296.,2./1296.,3./1296.,4./1296.,5./1296.,6./1296.,5./1296.,4./1296.,3./1296.,2./1296.,1./1296.};
-    GLfloat kernel21[]={1./14641.,2./14641.,3./14641.,4./14641.,5./14641.,6./14641.,7./14641.,8./14641.,9./14641.,10./14641.,
-        11./14641.,10./14641.,9./14641.,8./14641.,7./14641.,6./14641.,5./14641.,4./14641.,3./14641.,2./14641.,1./14641.};
-    GLfloat kernel41[]={1./194481.,2./194481.,3./194481.,4./194481.,5./194481.,6./194481.,7./194481.,8./194481.,9./194481.,
-        10./194481.,11./194481.,12./194481.,13./194481.,14./194481.,15./194481.,16./194481.,17./194481.,18./194481.,
-        19./194481.,20./194481.,21./194481.,20./194481.,19./194481.,18./194481.,17./194481.,16./194481.,15./194481.,
-        14./194481.,13./194481.,12./194481.,11./194481.,10./194481.,9./194481.,8./194481.,7./194481.,6./194481.,
-        5./194481.,4./194481.,3./194481.,2./194481.,1./194481.};
-    
-    GLfloat* kernels[]={kernel5,kernel11,kernel21,kernel41};
-#define PW_ARR_SIZE(x) sizeof(x)/sizeof(GLfloat)
-    unsigned int kLens[]={PW_ARR_SIZE(kernel5),PW_ARR_SIZE(kernel11),PW_ARR_SIZE(kernel21),PW_ARR_SIZE(kernel41)};
-#undef PW_ARR_SIZE
-    //todo:add Multiple passes to smooth blue effect
+    dims=HIGH_DIM;
+    //GLfloat kernel3[]={1./16.,2./16.,1./16.};
+    GLfloat kernel5[]={1./16.0,4./16.0,6./16.0,4./16.0,1./16.0};
+    GLfloat kernel11[]={1./1024.0,10./1024.0,45./1024.0,120./1024.0,210./1024.0,252./1024.0,210./1024.0,120./1024.0,45./1024.0,10./1024.0,1./1024.0};
     for(unsigned int i=0;i<TEX_COUNT;++i,dims/=2)
     {
         //do horizontal blur
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos2[i]);
         glViewport(0,0,dims,dims);
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        DrawBlur(1./dims, 0.0, kernel3, sizeof(kernel3)/sizeof(GLfloat),_textures1[i]);
+        DrawBlur(1./dims, 0.0, kernel11, sizeof(kernel11)/sizeof(GLfloat),_textures1[i]);
         
         //do vertical blur
         glBindFramebuffer(GL_FRAMEBUFFER, _fbos1[i]);
         glViewport(0,0,dims,dims);
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        DrawBlur(0.0, 1./dims, kernel3, sizeof(kernel3)/sizeof(GLfloat),_textures2[i]);
+        DrawBlur(0.0, 1./dims, kernel5, sizeof(kernel5)/sizeof(GLfloat),_textures2[i]);
     }
     
     
@@ -192,10 +182,14 @@ void VisMgr::Draw()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     //draw to screen
     glViewport(_vpX, _vpY, _vpWidth, _vpHeight);
-    
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     DrawComposite();
+    
+    
     //DrawCombine(_textures1);
+//    glViewport(0,0,HIGH_DIM,HIGH_DIM);
+//    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    DrawMaze(true);
     //DrawTest();
     //[self drawPath]
     
@@ -268,7 +262,7 @@ void VisMgr::InitCompositeBuff()
     glGenTextures(TEX_COUNT, _textures1);
     glGenTextures(TEX_COUNT, _textures2);
     
-    GLuint currDim=1024;
+    GLuint currDim=HIGH_DIM;
     for(unsigned int i=0; i<TEX_COUNT;++i)
     {
         CreateRenderFBO(_fbos1[i], _textures1[i], currDim, currDim);
@@ -416,6 +410,9 @@ void VisMgr::DrawBlur(GLfloat xOff,GLfloat yOff,const GLfloat* kernel,const unsi
     glUseProgram(_blurProg);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, inTex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glUniform1i(glGetUniformLocation(_blurProg,"src"),0);
     glUniform2f(glGetUniformLocation(_blurProg,"offset"),xOff,yOff);
     glUniform1fv(glGetUniformLocation(_blurProg, "kernel"),kLen,kernel);
@@ -435,6 +432,7 @@ void VisMgr::DrawCombine(GLuint* texes)
     ASSERT_GL("Pre Composite");
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendEquation(GL_MAX);
     glBindVertexArray(_vaos[VAO_COMPOSITE]);
     glBindBuffer(GL_ARRAY_BUFFER,_compositeBuff);
     glUseProgram(_combineProg);
@@ -445,12 +443,17 @@ void VisMgr::DrawCombine(GLuint* texes)
         glActiveTexture(GL_TEXTURE0+i);
         ASSERT_GL("ith texture active");
         glBindTexture(GL_TEXTURE_2D, texes[i]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         ASSERT_GL("ith Texture bound");
     }
     glUniform1i(glGetUniformLocation(_combineProg,"src16"),0);
     glUniform1i(glGetUniformLocation(_combineProg,"src4"),1);
     glUniform1i(glGetUniformLocation(_combineProg,"src2"),2);
     glUniform1i(glGetUniformLocation(_combineProg,"src1"),3);
+    glUniform1f(glGetUniformLocation(_combineProg,"intense"),_glowIntensity);
+
     ASSERT_GL("Texture bound");
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     ASSERT_GL("Comp drawn");
@@ -568,6 +571,12 @@ void VisMgr::NewMaze(MazeBuilder* bldr)
 
 void VisMgr::RefreshWithMaze(MazeBuilder* bldr)
 {
+    if(_wallVerts==nullptr)
+    {
+        ASSERT_GL("PreNew");
+        NewMaze(bldr);
+        ASSERT_GL("PostNew");
+    }
     //useful for some shaders
     const MInd BOUNDARY_FLAG=0x4;
     // Update walls
@@ -829,6 +838,11 @@ void VisMgr::SetDecayDelay(float delay)
 {
     _decayDelay=delay;
 }
+
+bool VisMgr::ReadyToDraw() const { 
+    return _compFBO>0;
+}
+
 
 
 

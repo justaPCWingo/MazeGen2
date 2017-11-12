@@ -52,6 +52,8 @@ public:
     void SetShowPathDecay(bool showDecay);
     void SetDecayDelay(float delay);
     
+    bool ReadyToDraw() const;
+    
     //debug utilties
     static void DbgDumpMaze(MazeBuilder* bldr);
 private:
@@ -80,10 +82,10 @@ private:
     
     enum
     {
-        TEX_1024=0,
-        TEX_512,
-        TEX_256,
-        TEX_128,
+        TEX_128=0,
+        TEX_64,
+        TEX_32,
+        TEX_16,
         
         TEX_COUNT
     };
@@ -114,6 +116,7 @@ private:
     bool _showDecay;
     
     float _decayDelay;
+    GLfloat _glowIntensity;
     GLfloat _pathTime;
     
     MazeCellVert *_wallVerts;

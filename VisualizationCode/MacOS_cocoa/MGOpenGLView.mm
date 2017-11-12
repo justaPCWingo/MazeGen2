@@ -12,6 +12,7 @@
 #ifndef SHADERS_DIR
 #define SHADERS_DIR "shaders"
 #endif
+#import "GLErrStream.hpp"
 
 #define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
 
@@ -58,15 +59,17 @@
         _visMgr->SetPathTime(_visMgr->GetPathTime()+0.001);
         [self setNeedsDisplay:YES];
     }];
+    
+    
+    
+    ASSERT_GL("Postawake");
 }
 
 -(void)prepareOpenGL
 {
     //initialization code here
     [super prepareOpenGL];
-    
-    NSRect bounds=[self bounds];
-    
+    NSRect bounds = self.bounds;
     glEnable (GL_BLEND);
     
     [self willChangeValueForKey:@"gridColor"];
@@ -86,12 +89,17 @@
     [self didChangeValueForKey:@"showPathDecayColor"];
     [self didChangeValueForKey:@"decayDelay"];
     //_visMgr->InitTest();
+    ASSERT_GL("Postawake");
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Drawing code here.
-    _visMgr->Draw();
+    if(_visMgr->ReadyToDraw())
+        _visMgr->Draw();
+    else
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     [[self openGLContext] flushBuffer];
 }
 
@@ -112,6 +120,7 @@
     _visMgr->RefreshWithMaze(bldr);
     _visMgr->SetPathTime(0.0);
     [self setNeedsDisplay:YES];
+    ASSERT_GL("Refresh Posted");
 }
 
 #define PW_VIS_COLOR(getProp,setProp,GetFn,SetFn) \

@@ -847,7 +847,7 @@
                                 </connections>
                             </textField>
                             <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Wv-2W-pSL">
-                                <rect key="frame" x="1157" y="807" width="19" height="27"/>
+                                <rect key="frame" x="1161" y="807" width="19" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="e5H-t2-6yv"/>
                                     <constraint firstAttribute="width" constant="13" id="fxr-J3-Trj"/>
@@ -896,9 +896,9 @@
                             <constraint firstItem="fTf-0D-Ddw" firstAttribute="top" secondItem="dDE-0I-PTj" secondAttribute="bottom" constant="8" id="WMU-Sm-EcK"/>
                             <constraint firstItem="P0O-Ja-P9e" firstAttribute="top" secondItem="DUV-U5-kTq" secondAttribute="bottom" constant="15" id="WrO-OX-ffi"/>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="top" secondItem="m8C-60-U9h" secondAttribute="bottom" constant="11" id="e14-VQ-1Dw"/>
-                            <constraint firstAttribute="trailing" secondItem="5Wv-2W-pSL" secondAttribute="trailing" constant="27" id="eJQ-LA-yvh"/>
+                            <constraint firstAttribute="trailing" secondItem="5Wv-2W-pSL" secondAttribute="trailing" constant="23" id="eJQ-LA-yvh"/>
                             <constraint firstItem="xks-EW-zhp" firstAttribute="leading" secondItem="ahB-1D-cwT" secondAttribute="trailing" constant="8" id="hkf-Iy-o2Q"/>
-                            <constraint firstItem="5Wv-2W-pSL" firstAttribute="leading" secondItem="RoM-0x-WOB" secondAttribute="trailing" constant="50" id="jLm-2a-VzZ"/>
+                            <constraint firstItem="5Wv-2W-pSL" firstAttribute="leading" secondItem="RoM-0x-WOB" secondAttribute="trailing" constant="54" id="jLm-2a-VzZ"/>
                             <constraint firstAttribute="trailing" secondItem="xks-EW-zhp" secondAttribute="trailing" constant="38" id="lxh-Wl-opB"/>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="centerY" secondItem="KTl-1U-Zia" secondAttribute="centerY" id="qOf-6t-Pq9"/>
                             <constraint firstItem="xks-EW-zhp" firstAttribute="centerY" secondItem="ahB-1D-cwT" secondAttribute="centerY" id="xtS-tv-zlT"/>
