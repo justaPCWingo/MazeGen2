@@ -6,11 +6,11 @@ uniform mat4 projMat;
 layout (location=0) in vec4 pos;
 layout (location=1) in float stepThresh;
 
-out float threshold;
+out float gThreshold;
 
 void main()
 {
-    gl_Position=projMat*pos;
+    gl_Position=pos;
     
-    threshold=stepThresh;
+    gThreshold=stepThresh;
 }

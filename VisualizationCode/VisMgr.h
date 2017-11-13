@@ -156,6 +156,6 @@ private:
     GLint _vpWidth;
     GLint _vpHeight;
     
-    void StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir);
+    GLfloat StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir);
     
 };

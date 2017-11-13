@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "GLErrStream.hpp"
 
 @implementation ViewController
 @synthesize glView=_glView;
@@ -42,6 +43,7 @@
     try
     {
         _bldr->GenerateMaze();
+        ASSERT_GL("REFRESH BUTTON");
         [_glView refreshWithMaze:_bldr];
     }
     catch(std::runtime_error & e)

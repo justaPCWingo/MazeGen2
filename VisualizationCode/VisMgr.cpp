@@ -390,7 +390,7 @@ void VisMgr::DrawPath(bool isBloom)
     glUniform3fv(glGetUniformLocation(_pathProg,"decayColor"),1,glm::value_ptr(_showDecay ? _decayPathColor : _pathColor));
     glUniform1f(glGetUniformLocation(_pathProg, "decayDelay"),_decayDelay);
     glUniform1i(glGetUniformLocation(_pathProg,"isBloom"),isBloom || !_showPath);
-        glDrawArrays(GL_LINE_STRIP,0,_pathVertsCount);
+        glDrawArrays(GL_LINE_STRIP_ADJACENCY,0,_pathVertsCount);
     ASSERT_GL("draw arrays");
     glUseProgram(0);
     ASSERT_GL("End Draw");
@@ -658,19 +658,19 @@ void VisMgr::BuildPath(MazeBuilder* bldr)
         MInd sInd=bldr->GetStart();
         _pathVerts[i]=MazeCellVert(bldr->ColForIndex(sInd)+0.5,bldr->RowForIndex(sInd)+0.5);
         _pathVerts[i].step=i;
-        StepToEdge(_pathVerts[i], bldr->GetStartEdge());
+        GLfloat offs=StepToEdge(_pathVerts[i], bldr->GetStartEdge());
         ++i;
         for(MInd ind : path)
         {
             _pathVerts[i]=MazeCellVert(bldr->ColForIndex(ind)+0.5,bldr->RowForIndex(ind)+0.5);
-            _pathVerts[i].step=i;
+            _pathVerts[i].step=i+offs;
             //std::cout<<_pathVerts[i].x<<", "<<_pathVerts[i].y<<std::endl;
             ++i;
         }
         MInd fInd=bldr->GetFinish();
         _pathVerts[i]=MazeCellVert(bldr->ColForIndex(fInd)+0.5,bldr->RowForIndex(fInd)+0.5);
-        _pathVerts[i].step=i;
-        StepToEdge(_pathVerts[i], bldr->GetFinishEdge());
+        GLfloat finalStep=StepToEdge(_pathVerts[i], bldr->GetFinishEdge());
+        _pathVerts[i].step=finalStep+_pathVerts[i-1].step;
         
         glBufferSubData( GL_ARRAY_BUFFER,0,sizeof(MazeCellVert)*_pathVertsCount, _pathVerts);
         ASSERT_GL("PostSubData");
@@ -739,9 +739,9 @@ void VisMgr::DbgDumpMaze(MazeBuilder* bldr)
     cout<<endl;
 }
 
-void VisMgr::StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir)
+GLfloat VisMgr::StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir)
 {
-    const GLfloat DISTANCE=0.75;
+    const GLfloat DISTANCE=2.0;
     switch(dir)
     {
         case MazeBuilder::UP_DIR:
@@ -759,6 +759,7 @@ void VisMgr::StepToEdge(MazeCellVert & mcv, MazeBuilder::DIRECTIONS dir)
         default:
             break;
     }
+    return DISTANCE;
 }
 
 void VisMgr::SetViewport(GLint x, GLint y, GLint width, GLint height)

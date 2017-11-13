@@ -46,6 +46,8 @@
 		17ECDAD01F256F8F002E04C3 /* wall.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDACB1F2565BE002E04C3 /* wall.vert */; };
 		17ECDAD11F256F8F002E04C3 /* wall.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDACD1F256F44002E04C3 /* wall.frag */; };
 		17ECDAD41F25738E002E04C3 /* VisMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17ECDAD31F25738E002E04C3 /* VisMgr.cpp */; };
+		17F6613A1FB91574004CAA4D /* path.geom in Resources */ = {isa = PBXBuildFile; fileRef = 17F661391FB91574004CAA4D /* path.geom */; };
+		17F6613B1FB91951004CAA4D /* path.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F661391FB91574004CAA4D /* path.geom */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -64,6 +66,7 @@
 			dstPath = shaders;
 			dstSubfolderSpec = 16;
 			files = (
+				17F6613B1FB91951004CAA4D /* path.geom in CopyFiles */,
 				172AFA8A1F8AED2C0001A3DA /* transfer.frag in CopyFiles */,
 				172AFA8B1F8AED2C0001A3DA /* combine.frag in CopyFiles */,
 				176CE62D1F81CECE005293A5 /* composite.vert in CopyFiles */,
@@ -117,6 +120,7 @@
 		17ECDACD1F256F44002E04C3 /* wall.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = wall.frag; path = VisualizationCode/shaders/wall.frag; sourceTree = SOURCE_ROOT; };
 		17ECDAD21F25736C002E04C3 /* VisMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisMgr.h; path = ../VisMgr.h; sourceTree = "<group>"; };
 		17ECDAD31F25738E002E04C3 /* VisMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisMgr.cpp; path = ../VisMgr.cpp; sourceTree = "<group>"; };
+		17F661391FB91574004CAA4D /* path.geom */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = path.geom; path = VisualizationCode/shaders/path.geom; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +223,7 @@
 				17572E321F3FD148006CAD6C /* grid.geom */,
 				17B1A1191F5BBEE300573CAB /* path.vert */,
 				17B1A11B1F5BBF1E00573CAB /* path.frag */,
+				17F661391FB91574004CAA4D /* path.geom */,
 				176CE6291F81CD88005293A5 /* composite.vert */,
 				176CE62B1F81CE3F005293A5 /* composite.frag */,
 				172AFA861F8AE9890001A3DA /* transfer.frag */,
@@ -322,6 +327,7 @@
 				17ECDACC1F2565BE002E04C3 /* wall.vert in Resources */,
 				173D225A1F1C347500BAE537 /* Main.storyboard in Resources */,
 				17ECDACA1F256487002E04C3 /* wall.geom in Resources */,
+				17F6613A1FB91574004CAA4D /* path.geom in Resources */,
 				176CE62A1F81CD88005293A5 /* composite.vert in Resources */,
 				176CE62C1F81CE3F005293A5 /* composite.frag in Resources */,
 			);
