@@ -20,6 +20,8 @@
     
     [_glView addObserver:self forKeyPath:@"drawFullPath" options:0 context:nil];
     [_glView addObserver:self forKeyPath:@"showPathDecayColor" options:0 context:nil];
+    [_glView addObserver:self forKeyPath:@"applyRot" options:0 context:nil];
+    _glView.controller=self;
 }
 
 
@@ -64,6 +66,8 @@
         [_fullPathCB setState:_glView.drawFullPath ? NSOnState : NSOffState];
     else if ([keyPath isEqualToString:@"showPathDecayColor"])
         [_decayCB setState:_glView.showPathDecayColor ? NSOnState : NSOffState];
+    else if([keyPath isEqualToString:@"applyRot"])
+        [_rotateCB setState:_glView.applyRotation ? NSOnState : NSOffState];
     
 }
 
@@ -77,10 +81,16 @@
     _glView.showPathDecayColor=[sender state]==NSOnState;
 }
 
+-(IBAction)UpdateFromRotateCB:(id)sender
+{
+    _glView.applyRotation=[sender state]==NSOnState;
+}
+
 -(void)dealloc
 {
     [_glView removeObserver:self forKeyPath:@"drawFullPath"];
     [_glView removeObserver:self forKeyPath:@"showPathDecayColor"];
+    [_glView removeObserver:self forKeyPath:@"applyRot"];
     delete _bldr;
 }
 @end

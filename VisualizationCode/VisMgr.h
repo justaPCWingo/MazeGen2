@@ -10,6 +10,7 @@
 #include "../MazeGen2/MazeBuilder.h"
 #include "ShaderMgr.h"
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <vector>
 
 struct MazeCellVert;
@@ -31,6 +32,7 @@ public:
     
     void SetPathTime(const GLfloat & currTime);
     GLfloat GetPathTime() const;
+    unsigned int GetPathLength() const;
     
     void SetViewport(GLint x,GLint y,GLint width,GLint height);
     
@@ -42,6 +44,7 @@ public:
     bool GetShowFullPath() const;
     bool GetShowPathDecay() const;
     float GetDecayDelay() const;
+    bool GetApplyRot() const;
     
     //setters for display properties
     void SetGridColor(const glm::vec3 & gc);
@@ -51,6 +54,8 @@ public:
     void SetShowFullPath(bool showFull);
     void SetShowPathDecay(bool showDecay);
     void SetDecayDelay(float delay);
+    void SetRotAxis(float x,float y, float z);
+    void SetApplyRot(bool apply);
     
     bool ReadyToDraw() const;
     
@@ -105,7 +110,9 @@ private:
     GLuint _depthBuff;
     
     glm::mat4 _actProj;
-    glm::mat4 _testProj;
+    glm::mat4 _mvp;
+    glm::mat4 _mdlMat;
+    glm::vec3 _rotAxis;
     
     glm::vec3 _wallColor;
     glm::vec3 _gridColor;
@@ -114,6 +121,7 @@ private:
     
     bool _showPath;
     bool _showDecay;
+    bool _applyRot;
     
     float _decayDelay;
     GLfloat _glowIntensity;

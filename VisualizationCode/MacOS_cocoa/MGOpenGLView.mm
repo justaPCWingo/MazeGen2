@@ -7,16 +7,20 @@
 //
 
 #import "MGOpenGLView.h"
+#import "ViewController.h"
 //#import "GLErrStream.hpp"
 
 #ifndef SHADERS_DIR
 #define SHADERS_DIR "shaders"
 #endif
 #import "GLErrStream.hpp"
+#import<random>
+#import<chrono>
 
 #define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
 
 @implementation MGOpenGLView
+@synthesize controller=_vCtrl;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -56,8 +60,13 @@
     //set up path time
     _pathTimer=[NSTimer scheduledTimerWithTimeInterval:0.001 repeats:YES block:^(NSTimer* theTimer)
     {
-        _visMgr->SetPathTime(_visMgr->GetPathTime()+0.001);
-        [self setNeedsDisplay:YES];
+        if(_visMgr->GetPathTime()<_visMgr->GetPathLength()+8)
+        {
+            _visMgr->SetPathTime(_visMgr->GetPathTime()+0.001);
+            [self setNeedsDisplay:YES];
+        }
+        else
+            [_vCtrl RefreshMaze:nil];
     }];
     
     
@@ -71,6 +80,7 @@
     [super prepareOpenGL];
     NSRect bounds = self.bounds;
     glEnable (GL_BLEND);
+    //glEnable( GL_MULTISAMPLE );
     
     [self willChangeValueForKey:@"gridColor"];
     [self willChangeValueForKey:@"wallColor"];
@@ -79,6 +89,7 @@
     [self willChangeValueForKey:@"drawFullPath"];
     [self willChangeValueForKey:@"showPathDecayColor"];
     [self willChangeValueForKey:@"decayDelay"];
+    [self willChangeValueForKey:@"applyRot"];
     _visMgr=new VisMgr(SHADERS_DIR,bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
     _visMgr->InitForOpenGL();
     [self didChangeValueForKey:@"gridColor"];
@@ -88,6 +99,7 @@
     [self didChangeValueForKey:@"drawFullPath"];
     [self didChangeValueForKey:@"showPathDecayColor"];
     [self didChangeValueForKey:@"decayDelay"];
+    [self didChangeValueForKey:@"applyRot"];
     //_visMgr->InitTest();
     ASSERT_GL("Postawake");
 }
@@ -118,8 +130,14 @@
 
 -(void)refreshWithMaze:(MazeBuilder*)bldr
 {
+    //random stuff
+    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
+    std::uniform_real_distribution<float> distribution(-0.1,0.1);
+    int dice_roll = distribution(generator);
+    
     _visMgr->RefreshWithMaze(bldr);
     _visMgr->SetPathTime(0.0);
+    _visMgr->SetRotAxis(distribution(generator),distribution(generator),distribution(generator));
     [self setNeedsDisplay:YES];
     ASSERT_GL("Refresh Posted");
 }
@@ -185,6 +203,19 @@ PW_VIS_COLOR(getDecayColor,setDecayColor, GetDecayedPathColor,SetDecayedPathColo
 {
     if(_visMgr)
         _visMgr->SetDecayDelay(delay);
+}
+
+-(BOOL)getApplyRot
+{
+    if(_visMgr)
+        return _visMgr->GetApplyRot();
+    return YES;
+}
+
+-(void)setApplyRot:(BOOL)apply
+{
+    if(_visMgr)
+        _visMgr->SetApplyRot(apply);
 }
 
 -(void)dealloc

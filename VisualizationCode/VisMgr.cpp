@@ -23,6 +23,7 @@
 
 #define HIGH_DIM 512
 #define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
+#define ROT_COEFF 0.3
 
 struct MazeCellVert {
     GLfloat x,y,z;
@@ -75,9 +76,14 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
     _decayPathColor={.2,.2,.2};
     _showPath=true;
     _showDecay=true;
+    _applyRot=true;
     _decayDelay=5.0;
     
     _actProj=glm::mat4();
+    
+    //set translate column to offset
+#define MDL_OFFS -8.0
+    _mdlMat[3]=glm::vec4(MDL_OFFS,MDL_OFFS,MDL_OFFS,1.0);
     
     for(unsigned int i=0; i<VAO_COUNT;++i)
         _vaos[i]=0;
@@ -129,6 +135,16 @@ void VisMgr::DrawMaze(bool isBloom)
 
 void VisMgr::Draw()
 {
+    //update rotation
+    if(_applyRot)
+    {
+        glm::fquat rotQuat(cosf((_pathTime/_pathVertsCount)*3.),_rotAxis);
+        //update mvp mat
+        _mvp=_actProj*glm::mat4_cast(rotQuat)*_mdlMat;
+    }
+    else
+        _mvp=_actProj*_mdlMat;
+    
     // Drawing code here.
     ASSERT_GL("BASE DRAW START");
     glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
@@ -339,7 +355,7 @@ void VisMgr::DrawWalls()
     ASSERT_GL("Pre Draw");
     glUseProgram(_wallProg);
     ASSERT_GL("Use Program");
-    glUniformMatrix4fv(glGetUniformLocation(_wallProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_actProj));
+    glUniformMatrix4fv(glGetUniformLocation(_wallProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_mvp));
     ASSERT_GL("ProjMat assign");
     glUniform3fv(glGetUniformLocation(_wallProg,"wallColor"),1,glm::value_ptr(_wallColor));
     ASSERT_GL("color assing");
@@ -361,7 +377,7 @@ void VisMgr::DrawGrid()
     ASSERT_GL("Pre Draw");
     glUseProgram(_gridProg);
     ASSERT_GL("Use Program");
-    glUniformMatrix4fv(glGetUniformLocation(_gridProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_actProj));
+    glUniformMatrix4fv(glGetUniformLocation(_gridProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_mvp));
     ASSERT_GL("ProjMat assign");
     glUniform3fv(glGetUniformLocation(_gridProg,"wallColor"),1,glm::value_ptr(_gridColor));
     ASSERT_GL("color assing");
@@ -383,7 +399,7 @@ void VisMgr::DrawPath(bool isBloom)
     ASSERT_GL("Pre Draw");
     glUseProgram(_pathProg);
     ASSERT_GL("Use Program");
-    glUniformMatrix4fv(glGetUniformLocation(_pathProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_actProj));
+    glUniformMatrix4fv(glGetUniformLocation(_pathProg,"projMat"), 1, GL_FALSE, glm::value_ptr(_mvp));
     glUniform1f(glGetUniformLocation(_pathProg,"currTime"),_pathTime);
     ASSERT_GL("ProjMat assign");
     glUniform3fv(glGetUniformLocation(_pathProg,"pathColor"),1,glm::value_ptr(_pathColor));
@@ -472,6 +488,9 @@ void VisMgr::DrawComposite()
     glUseProgram(_compositeProg);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _compTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glUniform1i(glGetUniformLocation(_compositeProg,"srcTx"),0);
     ASSERT_GL("Texture bound");
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
@@ -564,7 +583,9 @@ void VisMgr::NewMaze(MazeBuilder* bldr)
     InitCompositeBuff();
     
     //set ortho projection
-    _actProj=glm::ortho(-2.f, bldr->GetRowCount()+2.f, -2.f, bldr->GetColCount()+2.f, 1.f,-1.f);
+    //_actProj=glm::ortho(-2.f, bldr->GetRowCount()+2.f, -2.f, bldr->GetColCount()+2.f, 1.f,-1.f);
+    _actProj=glm::perspective(90.0, (1.0*bldr->GetRowCount())/bldr->GetColCount(), 0.001, 1000.0);
+    
     //set up wall values
     RefreshWithMaze(bldr);
 }
@@ -843,6 +864,30 @@ void VisMgr::SetDecayDelay(float delay)
 bool VisMgr::ReadyToDraw() const { 
     return _compFBO>0;
 }
+
+void VisMgr::SetRotAxis(float x, float y, float z) { 
+    
+    _rotAxis.x=x;
+    _rotAxis.y=y;
+    _rotAxis.z=z;
+}
+
+unsigned int VisMgr::GetPathLength() const {
+    //returns only internal count;
+    return _pathVertsCount-2;
+}
+
+bool VisMgr::GetApplyRot() const { 
+    return _applyRot;
+}
+
+void VisMgr::SetApplyRot(bool apply) { 
+    _applyRot=apply;
+}
+
+
+
+
 
 
 

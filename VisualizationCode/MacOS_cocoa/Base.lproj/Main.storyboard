@@ -870,6 +870,16 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="eDm-I2-pQK">
+                                <rect key="frame" x="1042" y="779" width="111" height="18"/>
+                                <buttonCell key="cell" type="check" title="Apply Rotation" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Aqt-6N-JuC">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="UpdateFromRotateCB:" target="XfG-lQ-9wD" id="1fB-lo-w4s"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="1wI-Be-oRV"/>
@@ -894,6 +904,7 @@
                             <constraint firstItem="dDE-0I-PTj" firstAttribute="top" secondItem="P0O-Ja-P9e" secondAttribute="bottom" constant="6" id="Roy-iS-mxR"/>
                             <constraint firstItem="KTl-1U-Zia" firstAttribute="trailing" secondItem="ahB-1D-cwT" secondAttribute="trailing" id="Uq3-nD-ki1"/>
                             <constraint firstItem="fTf-0D-Ddw" firstAttribute="top" secondItem="dDE-0I-PTj" secondAttribute="bottom" constant="8" id="WMU-Sm-EcK"/>
+                            <constraint firstItem="eDm-I2-pQK" firstAttribute="top" secondItem="jPA-Nm-0Dr" secondAttribute="bottom" constant="14" id="WXQ-6P-KHN"/>
                             <constraint firstItem="P0O-Ja-P9e" firstAttribute="top" secondItem="DUV-U5-kTq" secondAttribute="bottom" constant="15" id="WrO-OX-ffi"/>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="top" secondItem="m8C-60-U9h" secondAttribute="bottom" constant="11" id="e14-VQ-1Dw"/>
                             <constraint firstAttribute="trailing" secondItem="5Wv-2W-pSL" secondAttribute="trailing" constant="23" id="eJQ-LA-yvh"/>
@@ -901,6 +912,7 @@
                             <constraint firstItem="5Wv-2W-pSL" firstAttribute="leading" secondItem="RoM-0x-WOB" secondAttribute="trailing" constant="54" id="jLm-2a-VzZ"/>
                             <constraint firstAttribute="trailing" secondItem="xks-EW-zhp" secondAttribute="trailing" constant="38" id="lxh-Wl-opB"/>
                             <constraint firstItem="DUV-U5-kTq" firstAttribute="centerY" secondItem="KTl-1U-Zia" secondAttribute="centerY" id="qOf-6t-Pq9"/>
+                            <constraint firstAttribute="trailing" secondItem="eDm-I2-pQK" secondAttribute="trailing" constant="49" id="w1g-XO-2do"/>
                             <constraint firstItem="xks-EW-zhp" firstAttribute="centerY" secondItem="ahB-1D-cwT" secondAttribute="centerY" id="xtS-tv-zlT"/>
                             <constraint firstItem="fTf-0D-Ddw" firstAttribute="centerX" secondItem="xks-EW-zhp" secondAttribute="centerX" id="ya7-Ka-JFP"/>
                             <constraint firstItem="jPA-Nm-0Dr" firstAttribute="centerX" secondItem="fTf-0D-Ddw" secondAttribute="centerX" id="zDD-Bu-hTh"/>
@@ -913,6 +925,7 @@
                         <outlet property="_glView" destination="N0m-1U-0co" id="x4T-BI-N1d"/>
                         <outlet property="_gridWell" destination="xks-EW-zhp" id="jyP-Sm-aqA"/>
                         <outlet property="_pathWell" destination="DUV-U5-kTq" id="xfu-ej-ffh"/>
+                        <outlet property="_rotateCB" destination="eDm-I2-pQK" id="chY-Mb-pos"/>
                         <outlet property="_wallWell" destination="m8C-60-U9h" id="fWL-Jb-tKz"/>
                     </connections>
                 </viewController>

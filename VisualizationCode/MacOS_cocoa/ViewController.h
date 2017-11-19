@@ -22,12 +22,14 @@
     IBOutlet NSColorWell* _decayWell;
     IBOutlet NSButton* _fullPathCB;
     IBOutlet NSButton* _decayCB;
+    IBOutlet NSButton* _rotateCB;
     
     MazeBuilder* _bldr;
 }
 -(IBAction)RefreshMaze:(id)sender;
 -(IBAction)UpdateFromFullPathCB:(id)sender;
 -(IBAction)UpdateFromDecayCB:(id)sender;
+-(IBAction)UpdateFromRotateCB:(id)sender;
 
 @property(readonly) MGOpenGLView* glView;
 @end

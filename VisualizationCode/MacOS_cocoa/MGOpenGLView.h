@@ -14,10 +14,13 @@
 #import "../ShaderMgr.h"
 #import "../VisMgr.h"
 
+@class ViewController;
+
 @interface MGOpenGLView : NSOpenGLView
 {
     VisMgr* _visMgr;
     NSTimer* _pathTimer;
+    ViewController* _vCtrl;
 }
 
 -(void)newMaze:(MazeBuilder*)bldr;
@@ -30,4 +33,6 @@
 @property(getter=getDrawPath,setter=setDrawPath:) BOOL drawFullPath;
 @property(getter=getDrawDecay,setter=setDrawDecay:) BOOL showPathDecayColor;
 @property(getter=getDecayDelay,setter=setDecayDelay:) float decayDelay;
+@property(readwrite) ViewController* controller;
+@property(getter=getApplyRot,setter=setApplyRot:) BOOL applyRotation;
 @end
