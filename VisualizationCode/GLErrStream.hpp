@@ -9,7 +9,7 @@
 #ifndef __GL_ERR_STREAM_PW__
 #define __GL_ERR_STREAM_PW__
 
-#ifdef MAC_OSX
+#ifdef __APPLE__
 #include<OpenGL/gl3.h>
 #else
 #include<OpenGL/gl.h>
@@ -19,6 +19,10 @@ inline void GLPrintErr(const char* name, const char* file, const int line)
 {
     unsigned int err=glGetError();
     const char* outStr;
+    
+//    static int hits = 0;
+//    printf("[%s,%i]  %s, hit: %i\n",file,line,name,++hits);
+    
     int print=1;
     switch(err)
     {
@@ -31,13 +35,13 @@ inline void GLPrintErr(const char* name, const char* file, const int line)
         case GL_INVALID_OPERATION:
             outStr="Operation Not Allowed";
             break;
-        case GL_STACK_OVERFLOW:
-            outStr="Stack Overflow";
+        //case GL_STACK_OVERFLOW:
+        //    outStr="Stack Overflow";
         case GL_OUT_OF_MEMORY:
             outStr="Out of Memory";
             break;
-        case GL_TABLE_TOO_LARGE:
-            outStr="Table Exceeds Maximum Size";
+       // case GL_TABLE_TOO_LARGE:
+        //    outStr="Table Exceeds Maximum Size";
             break;
         default:
             print=0;

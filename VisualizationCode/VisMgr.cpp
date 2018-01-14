@@ -94,6 +94,7 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
         _pathBuffs[i]=0;
 
     _compFBO=0;
+    _compTexture=0;
     _depthBuff=0;
     
     _wallProg=0;
@@ -312,7 +313,6 @@ void VisMgr::CreateRenderFBO(GLuint & fbo,GLuint & tex,GLuint xdim,GLuint ydim)
     
     // - attach texture
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, tex, 0);
-    
     
     GLenum fboStatus=glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if(fboStatus!=GL_FRAMEBUFFER_COMPLETE)
@@ -594,6 +594,7 @@ void VisMgr::RefreshWithMaze(MazeBuilder* bldr)
 {
     if(_wallVerts==nullptr)
     {
+        std::cout<<"WALL!"<<std::endl;
         ASSERT_GL("PreNew");
         NewMaze(bldr);
         ASSERT_GL("PostNew");
@@ -604,6 +605,7 @@ void VisMgr::RefreshWithMaze(MazeBuilder* bldr)
     
     MInd currInd=0;
     MInd r=0;
+    std::cout<<"building walls"<<std::endl;
     for(; r<bldr->GetRowCount();++r)
     {
         MInd c=0;

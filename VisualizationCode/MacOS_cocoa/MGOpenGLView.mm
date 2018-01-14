@@ -7,12 +7,9 @@
 //
 
 #import "MGOpenGLView.h"
-#import "ViewController.h"
+//#import "ViewController.h"
 //#import "GLErrStream.hpp"
 
-#ifndef SHADERS_DIR
-#define SHADERS_DIR "shaders"
-#endif
 #import "GLErrStream.hpp"
 #import<random>
 #import<chrono>
@@ -24,11 +21,20 @@
 
 - (id)initWithFrame:(NSRect)frame
 {
+    _shadeDir=@"Shaders";
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
     }
+    [self awakeFromNib];
     
+    return self;
+}
+
+- (id)initWithFrame:(NSRect)frame shadeDir:(NSString*)shdrs
+{
+    self=[self initWithFrame:frame];
+    _shadeDir=shdrs;
     return self;
 }
 
@@ -36,7 +42,9 @@
 {
     
     //initialize the shader manager
-    //NSString* shaderPath=[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/Shaders/"];
+    if (!_shadeDir)
+        _shadeDir=@"Shaders";
+        //_shadeDir=[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/Shaders/"];
     
     //set up initial rendering info.
     NSOpenGLPixelFormatAttribute pixelFormatAttributes[] =
@@ -66,7 +74,7 @@
             [self setNeedsDisplay:YES];
         }
         else
-            [_vCtrl RefreshMaze:nil];
+            [_vCtrl performSelector:@selector(RefreshMaze:) withObject:nil];
     }];
     
     
@@ -76,6 +84,7 @@
 
 -(void)prepareOpenGL
 {
+    NSLog(@"Preparing Opengl");
     //initialization code here
     [super prepareOpenGL];
     NSRect bounds = self.bounds;
@@ -90,7 +99,7 @@
     [self willChangeValueForKey:@"showPathDecayColor"];
     [self willChangeValueForKey:@"decayDelay"];
     [self willChangeValueForKey:@"applyRot"];
-    _visMgr=new VisMgr(SHADERS_DIR,bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+    _visMgr=new VisMgr([_shadeDir cStringUsingEncoding:NSASCIIStringEncoding],bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
     _visMgr->InitForOpenGL();
     [self didChangeValueForKey:@"gridColor"];
     [self didChangeValueForKey:@"wallColor"];
@@ -133,9 +142,9 @@
     //random stuff
     std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_real_distribution<float> distribution(-0.1,0.1);
-    int dice_roll = distribution(generator);
-    
+    NSLog(@"randoms initialized");
     _visMgr->RefreshWithMaze(bldr);
+    NSLog(@"VisMgr refreshed");
     _visMgr->SetPathTime(0.0);
     _visMgr->SetRotAxis(distribution(generator),distribution(generator),distribution(generator));
     [self setNeedsDisplay:YES];

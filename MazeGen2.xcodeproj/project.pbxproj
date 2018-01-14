@@ -22,10 +22,35 @@
 		17572E331F3FD148006CAD6C /* grid.geom in Resources */ = {isa = PBXBuildFile; fileRef = 17572E321F3FD148006CAD6C /* grid.geom */; };
 		17572E341F3FD2DB006CAD6C /* wall-lines.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17572E301F3FCC5C006CAD6C /* wall-lines.geom */; };
 		17572E351F3FD2DB006CAD6C /* grid.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17572E321F3FD148006CAD6C /* grid.geom */; };
+		1766B2941FC240E100C93AC4 /* MazeGenSaverView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1766B2931FC240E100C93AC4 /* MazeGenSaverView.h */; };
+		1766B2961FC240E100C93AC4 /* MazeGenSaverView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1766B2951FC240E100C93AC4 /* MazeGenSaverView.mm */; };
+		1766B29B1FC2410F00C93AC4 /* VisMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17ECDAD31F25738E002E04C3 /* VisMgr.cpp */; };
+		1766B29C1FC2411300C93AC4 /* VisMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = 17ECDAD21F25736C002E04C3 /* VisMgr.h */; };
+		1766B29D1FC2412300C93AC4 /* ShaderMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = 17ECDABB1F255080002E04C3 /* ShaderMgr.h */; };
+		1766B29E1FC2412500C93AC4 /* ShaderMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17ECDABA1F255080002E04C3 /* ShaderMgr.cpp */; };
+		1766B29F1FC2412800C93AC4 /* GLErrStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 17ECDAB91F255080002E04C3 /* GLErrStream.hpp */; };
+		1766B2A01FC2413100C93AC4 /* MazeBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17C389E81F11814F00D3C1D0 /* MazeBuilder.cpp */; };
+		1766B2A11FC2413400C93AC4 /* MazeBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 17C389E91F11814F00D3C1D0 /* MazeBuilder.h */; };
+		1766B2A31FC2416200C93AC4 /* passThru.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDAC11F25537B002E04C3 /* passThru.frag */; };
+		1766B2A41FC2416200C93AC4 /* passThru.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDAC21F25537B002E04C3 /* passThru.vert */; };
+		1766B2A51FC2416200C93AC4 /* wall.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDAC91F256487002E04C3 /* wall.geom */; };
+		1766B2A61FC2416200C93AC4 /* wall.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDACB1F2565BE002E04C3 /* wall.vert */; };
+		1766B2A71FC2416200C93AC4 /* wall.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17ECDACD1F256F44002E04C3 /* wall.frag */; };
+		1766B2A81FC2416200C93AC4 /* wall-lines.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17572E301F3FCC5C006CAD6C /* wall-lines.geom */; };
+		1766B2A91FC2416200C93AC4 /* grid.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17572E321F3FD148006CAD6C /* grid.geom */; };
+		1766B2AA1FC2416200C93AC4 /* path.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17B1A1191F5BBEE300573CAB /* path.vert */; };
+		1766B2AB1FC2416200C93AC4 /* path.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17B1A11B1F5BBF1E00573CAB /* path.frag */; };
+		1766B2AC1FC2416200C93AC4 /* path.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F661391FB91574004CAA4D /* path.geom */; };
+		1766B2AD1FC2416200C93AC4 /* composite.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 176CE6291F81CD88005293A5 /* composite.vert */; };
+		1766B2AE1FC2416200C93AC4 /* composite.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 176CE62B1F81CE3F005293A5 /* composite.frag */; };
+		1766B2AF1FC2416200C93AC4 /* transfer.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 172AFA861F8AE9890001A3DA /* transfer.frag */; };
+		1766B2B01FC2416200C93AC4 /* combine.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 172AFA881F8AEBE20001A3DA /* combine.frag */; };
+		1766B2B11FC2417400C93AC4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 173D22601F1C348D00BAE537 /* OpenGL.framework */; };
 		176CE62A1F81CD88005293A5 /* composite.vert in Resources */ = {isa = PBXBuildFile; fileRef = 176CE6291F81CD88005293A5 /* composite.vert */; };
 		176CE62C1F81CE3F005293A5 /* composite.frag in Resources */ = {isa = PBXBuildFile; fileRef = 176CE62B1F81CE3F005293A5 /* composite.frag */; };
 		176CE62D1F81CECE005293A5 /* composite.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 176CE6291F81CD88005293A5 /* composite.vert */; };
 		176CE62E1F81CECE005293A5 /* composite.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 176CE62B1F81CE3F005293A5 /* composite.frag */; };
+		17A522261FC265A600DC1D49 /* MazeGenSaver.saver in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1766B2911FC240E100C93AC4 /* MazeGenSaver.saver */; };
 		17B1A11A1F5BBEE300573CAB /* path.vert in Resources */ = {isa = PBXBuildFile; fileRef = 17B1A1191F5BBEE300573CAB /* path.vert */; };
 		17B1A11C1F5BBF1E00573CAB /* path.frag in Resources */ = {isa = PBXBuildFile; fileRef = 17B1A11B1F5BBF1E00573CAB /* path.frag */; };
 		17B1A11D1F5BC03100573CAB /* path.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17B1A1191F5BBEE300573CAB /* path.vert */; };
@@ -48,9 +73,50 @@
 		17ECDAD41F25738E002E04C3 /* VisMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17ECDAD31F25738E002E04C3 /* VisMgr.cpp */; };
 		17F6613A1FB91574004CAA4D /* path.geom in Resources */ = {isa = PBXBuildFile; fileRef = 17F661391FB91574004CAA4D /* path.geom */; };
 		17F6613B1FB91951004CAA4D /* path.geom in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F661391FB91574004CAA4D /* path.geom */; };
+		17F7C3CD1FC24BA800D2D8BC /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F7C3CC1FC24BA800D2D8BC /* ScreenSaver.framework */; };
+		17F7C3CF1FC24BB200D2D8BC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F7C3CE1FC24BB200D2D8BC /* AppKit.framework */; };
+		17F7C3D11FC24BB900D2D8BC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17F7C3D01FC24BB900D2D8BC /* Foundation.framework */; };
+		17F7C3D21FC24BC700D2D8BC /* MGOpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173D22631F1C370A00BAE537 /* MGOpenGLView.mm */; };
+		17F7C3D71FC24D2400D2D8BC /* InfoPlist.strings in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F7C3D31FC24C4D00D2D8BC /* InfoPlist.strings */; };
+		17F7C3DB1FC2528A00D2D8BC /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F7C3D91FC2528A00D2D8BC /* thumbnail.png */; };
+		17F7C3DC1FC2547100D2D8BC /* thumbnail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17F7C3D81FC2528A00D2D8BC /* thumbnail@2x.png */; };
+		17F7C3DD1FC2574300D2D8BC /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 173D22541F1C347500BAE537 /* ViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1766B2A21FC2415500C93AC4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = shaders;
+			dstSubfolderSpec = 7;
+			files = (
+				1766B2A31FC2416200C93AC4 /* passThru.frag in CopyFiles */,
+				1766B2A41FC2416200C93AC4 /* passThru.vert in CopyFiles */,
+				1766B2A51FC2416200C93AC4 /* wall.geom in CopyFiles */,
+				1766B2A61FC2416200C93AC4 /* wall.vert in CopyFiles */,
+				1766B2A71FC2416200C93AC4 /* wall.frag in CopyFiles */,
+				1766B2A81FC2416200C93AC4 /* wall-lines.geom in CopyFiles */,
+				1766B2A91FC2416200C93AC4 /* grid.geom in CopyFiles */,
+				1766B2AA1FC2416200C93AC4 /* path.vert in CopyFiles */,
+				1766B2AB1FC2416200C93AC4 /* path.frag in CopyFiles */,
+				1766B2AC1FC2416200C93AC4 /* path.geom in CopyFiles */,
+				1766B2AD1FC2416200C93AC4 /* composite.vert in CopyFiles */,
+				1766B2AE1FC2416200C93AC4 /* composite.frag in CopyFiles */,
+				1766B2AF1FC2416200C93AC4 /* transfer.frag in CopyFiles */,
+				1766B2B01FC2416200C93AC4 /* combine.frag in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17A522251FC2657600DC1D49 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "/Users/pwingo/Library/Screen Savers";
+			dstSubfolderSpec = 0;
+			files = (
+				17A522261FC265A600DC1D49 /* MazeGenSaver.saver in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		17C389DC1F1180AD00D3C1D0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -83,6 +149,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		17F7C3D61FC24D1300D2D8BC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = English.lproj;
+			dstSubfolderSpec = 7;
+			files = (
+				17F7C3D71FC24D2400D2D8BC /* InfoPlist.strings in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +178,10 @@
 		173D22631F1C370A00BAE537 /* MGOpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MGOpenGLView.mm; sourceTree = "<group>"; };
 		17572E301F3FCC5C006CAD6C /* wall-lines.geom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = "wall-lines.geom"; path = "VisualizationCode/shaders/wall-lines.geom"; sourceTree = SOURCE_ROOT; };
 		17572E321F3FD148006CAD6C /* grid.geom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = grid.geom; path = VisualizationCode/shaders/grid.geom; sourceTree = SOURCE_ROOT; };
+		1766B2911FC240E100C93AC4 /* MazeGenSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MazeGenSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		1766B2931FC240E100C93AC4 /* MazeGenSaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MazeGenSaverView.h; sourceTree = "<group>"; };
+		1766B2951FC240E100C93AC4 /* MazeGenSaverView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MazeGenSaverView.mm; sourceTree = "<group>"; };
+		1766B2971FC240E100C93AC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		176CE6291F81CD88005293A5 /* composite.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = composite.vert; path = VisualizationCode/shaders/composite.vert; sourceTree = SOURCE_ROOT; };
 		176CE62B1F81CE3F005293A5 /* composite.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = composite.frag; path = VisualizationCode/shaders/composite.frag; sourceTree = SOURCE_ROOT; };
 		17B1A1191F5BBEE300573CAB /* path.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = path.vert; path = VisualizationCode/shaders/path.vert; sourceTree = SOURCE_ROOT; };
@@ -121,6 +201,12 @@
 		17ECDAD21F25736C002E04C3 /* VisMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisMgr.h; path = ../VisMgr.h; sourceTree = "<group>"; };
 		17ECDAD31F25738E002E04C3 /* VisMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisMgr.cpp; path = ../VisMgr.cpp; sourceTree = "<group>"; };
 		17F661391FB91574004CAA4D /* path.geom */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = path.geom; path = VisualizationCode/shaders/path.geom; sourceTree = SOURCE_ROOT; };
+		17F7C3CC1FC24BA800D2D8BC /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
+		17F7C3CE1FC24BB200D2D8BC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		17F7C3D01FC24BB900D2D8BC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		17F7C3D41FC24C4D00D2D8BC /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = VisualizationCode/MacOS_cocoa/MazeGenSaver/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		17F7C3D81FC2528A00D2D8BC /* thumbnail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "thumbnail@2x.png"; path = "VisualizationCode/MacOS_cocoa/MazeGenSaver/thumbnail@2x.png"; sourceTree = "<group>"; };
+		17F7C3D91FC2528A00D2D8BC /* thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thumbnail.png; path = VisualizationCode/MacOS_cocoa/MazeGenSaver/thumbnail.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +215,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				173D22611F1C348D00BAE537 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1766B28D1FC240E100C93AC4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F7C3D11FC24BB900D2D8BC /* Foundation.framework in Frameworks */,
+				17F7C3CF1FC24BB200D2D8BC /* AppKit.framework in Frameworks */,
+				17F7C3CD1FC24BA800D2D8BC /* ScreenSaver.framework in Frameworks */,
+				1766B2B11FC2417400C93AC4 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,16 +274,34 @@
 		173D225F1F1C348D00BAE537 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				17F7C3D01FC24BB900D2D8BC /* Foundation.framework */,
+				17F7C3CE1FC24BB200D2D8BC /* AppKit.framework */,
+				17F7C3CC1FC24BA800D2D8BC /* ScreenSaver.framework */,
 				173D22601F1C348D00BAE537 /* OpenGL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1766B2921FC240E100C93AC4 /* MazeGenSaver */ = {
+			isa = PBXGroup;
+			children = (
+				17F7C3D31FC24C4D00D2D8BC /* InfoPlist.strings */,
+				1766B2931FC240E100C93AC4 /* MazeGenSaverView.h */,
+				1766B2951FC240E100C93AC4 /* MazeGenSaverView.mm */,
+				1766B2971FC240E100C93AC4 /* Info.plist */,
+			);
+			name = MazeGenSaver;
+			path = VisualizationCode/MacOS_cocoa/MazeGenSaver;
+			sourceTree = "<group>";
+		};
 		17C389D51F1180AD00D3C1D0 = {
 			isa = PBXGroup;
 			children = (
+				17F7C3D91FC2528A00D2D8BC /* thumbnail.png */,
+				17F7C3D81FC2528A00D2D8BC /* thumbnail@2x.png */,
 				17C389E01F1180AD00D3C1D0 /* MazeGen2 */,
 				173D224C1F1C347500BAE537 /* MG2_Visualization */,
+				1766B2921FC240E100C93AC4 /* MazeGenSaver */,
 				17C389DF1F1180AD00D3C1D0 /* Products */,
 				173D225F1F1C348D00BAE537 /* Frameworks */,
 			);
@@ -197,6 +312,7 @@
 			children = (
 				17C389DE1F1180AD00D3C1D0 /* MazeGen2 */,
 				173D224B1F1C347500BAE537 /* MG2_Visualization.app */,
+				1766B2911FC240E100C93AC4 /* MazeGenSaver.saver */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -234,6 +350,21 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		1766B28E1FC240E100C93AC4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1766B29D1FC2412300C93AC4 /* ShaderMgr.h in Headers */,
+				1766B29F1FC2412800C93AC4 /* GLErrStream.hpp in Headers */,
+				1766B29C1FC2411300C93AC4 /* VisMgr.h in Headers */,
+				1766B2A11FC2413400C93AC4 /* MazeBuilder.h in Headers */,
+				1766B2941FC240E100C93AC4 /* MazeGenSaverView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		173D224A1F1C347500BAE537 /* MG2_Visualization */ = {
 			isa = PBXNativeTarget;
@@ -252,6 +383,27 @@
 			productName = MG2_Visualization;
 			productReference = 173D224B1F1C347500BAE537 /* MG2_Visualization.app */;
 			productType = "com.apple.product-type.application";
+		};
+		1766B2901FC240E100C93AC4 /* MazeGenSaver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1766B29A1FC240E100C93AC4 /* Build configuration list for PBXNativeTarget "MazeGenSaver" */;
+			buildPhases = (
+				1766B28C1FC240E100C93AC4 /* Sources */,
+				1766B28D1FC240E100C93AC4 /* Frameworks */,
+				1766B28E1FC240E100C93AC4 /* Headers */,
+				1766B28F1FC240E100C93AC4 /* Resources */,
+				1766B2A21FC2415500C93AC4 /* CopyFiles */,
+				17F7C3D61FC24D1300D2D8BC /* CopyFiles */,
+				17A522251FC2657600DC1D49 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MazeGenSaver;
+			productName = MazeGenSaver;
+			productReference = 1766B2911FC240E100C93AC4 /* MazeGenSaver.saver */;
+			productType = "com.apple.product-type.bundle";
 		};
 		17C389DD1F1180AD00D3C1D0 /* MazeGen2 */ = {
 			isa = PBXNativeTarget;
@@ -283,6 +435,10 @@
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
 					};
+					1766B2901FC240E100C93AC4 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
 					17C389DD1F1180AD00D3C1D0 = {
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
@@ -296,6 +452,7 @@
 			knownRegions = (
 				en,
 				Base,
+				English,
 			);
 			mainGroup = 17C389D51F1180AD00D3C1D0;
 			productRefGroup = 17C389DF1F1180AD00D3C1D0 /* Products */;
@@ -304,6 +461,7 @@
 			targets = (
 				17C389DD1F1180AD00D3C1D0 /* MazeGen2 */,
 				173D224A1F1C347500BAE537 /* MG2_Visualization */,
+				1766B2901FC240E100C93AC4 /* MazeGenSaver */,
 			);
 		};
 /* End PBXProject section */
@@ -333,6 +491,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1766B28F1FC240E100C93AC4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F7C3DC1FC2547100D2D8BC /* thumbnail@2x.png in Resources */,
+				17F7C3DB1FC2528A00D2D8BC /* thumbnail.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -347,6 +514,19 @@
 				17ECDAD41F25738E002E04C3 /* VisMgr.cpp in Sources */,
 				173D22521F1C347500BAE537 /* main.m in Sources */,
 				173D224F1F1C347500BAE537 /* AppDelegate.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1766B28C1FC240E100C93AC4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F7C3D21FC24BC700D2D8BC /* MGOpenGLView.mm in Sources */,
+				1766B2A01FC2413100C93AC4 /* MazeBuilder.cpp in Sources */,
+				17F7C3DD1FC2574300D2D8BC /* ViewController.mm in Sources */,
+				1766B29E1FC2412500C93AC4 /* ShaderMgr.cpp in Sources */,
+				1766B2961FC240E100C93AC4 /* MazeGenSaverView.mm in Sources */,
+				1766B29B1FC2410F00C93AC4 /* VisMgr.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +548,14 @@
 				173D22591F1C347500BAE537 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		17F7C3D31FC24C4D00D2D8BC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				17F7C3D41FC24C4D00D2D8BC /* English */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -400,6 +588,56 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "wingo.blam.boomer.MG2-Visualization";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1766B2981FC240E100C93AC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = $inherited;
+				HEADER_SEARCH_PATHS = "\"/Users/pwingo/Programming Projects/WingoOGLSupports/glm-0.9.6.1\"";
+				INFOPLIST_FILE = "$(SRCROOT)/VisualizationCode/MacOS_cocoa/MazeGenSaver/Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = wingo.blam.boomer.MazeGenSaver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Debug;
+		};
+		1766B2991FC240E100C93AC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = "\"/Users/pwingo/Programming Projects/WingoOGLSupports/glm-0.9.6.1\"";
+				INFOPLIST_FILE = "$(SRCROOT)/VisualizationCode/MacOS_cocoa/MazeGenSaver/Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = wingo.blam.boomer.MazeGenSaver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;
 		};
@@ -514,6 +752,15 @@
 			buildConfigurations = (
 				173D225C1F1C347500BAE537 /* Debug */,
 				173D225D1F1C347500BAE537 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1766B29A1FC240E100C93AC4 /* Build configuration list for PBXNativeTarget "MazeGenSaver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1766B2981FC240E100C93AC4 /* Debug */,
+				1766B2991FC240E100C93AC4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
