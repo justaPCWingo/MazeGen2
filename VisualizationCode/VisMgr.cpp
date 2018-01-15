@@ -18,7 +18,12 @@
 #ifdef __APPLE__
 #include <Opengl/gl3.h>
 #else
-//...
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+#include <GL/glew.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
 #endif
 
 #define HIGH_DIM 512
@@ -886,27 +891,3 @@ bool VisMgr::GetApplyRot() const {
 void VisMgr::SetApplyRot(bool apply) { 
     _applyRot=apply;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

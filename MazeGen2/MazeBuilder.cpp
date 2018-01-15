@@ -9,6 +9,7 @@
 #include "MazeBuilder.h"
 #include<chrono>
 #include<limits>
+#include<algorithm>
 
 const MInd MazeBuilder::NO_VAL=std::numeric_limits<MInd>::max();
 const MIndPair MazeBuilder::NO_PAIR_VAL=MIndPair(MazeBuilder::NO_VAL,MazeBuilder::NO_VAL);

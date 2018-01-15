@@ -12,7 +12,11 @@
 #ifdef __APPLE__
 #include<OpenGL/gl3.h>
 #else
-#include<OpenGL/gl.h>
+#ifdef _WIN32
+#include<Windows.h>
+#endif
+#include <GL/glew.h>
+#include<GL/gl.h>
 #endif
 
 inline void GLPrintErr(const char* name, const char* file, const int line)

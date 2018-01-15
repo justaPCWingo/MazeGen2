@@ -8,6 +8,7 @@
 
 #include "ShaderMgr.h"
 #include <iostream>
+#include <string>
 
 //extern const char* VERT_EXT;
 //extern const char* FRAG_EXT;

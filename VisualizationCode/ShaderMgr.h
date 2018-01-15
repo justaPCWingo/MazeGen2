@@ -10,7 +10,15 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#ifdef __APPLE__
 #include <OpenGL/gl3.h>
+#else
+#ifdef _WIN32
+#include<Windows.h>
+#endif
+#include <GL/glew.h>
+#include <GL/gl.h>
+#endif
 
 #define ADDROFFSET(x) (char*)NULL+(sizeof(float)*(x))
 
