@@ -6,6 +6,8 @@
 //  Copyright © 2017 Wingo. All rights reserved.
 //
 
+#pragma unmanaged
+
 #include "VisMgr.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -133,10 +135,12 @@ void VisMgr::InitForOpenGL()
 
 void VisMgr::DrawMaze(bool isBloom)
 {
+	glDisable(GL_DEPTH_TEST);
     if (!isBloom)
         DrawGrid();
     DrawWalls();
     DrawPath(isBloom);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void VisMgr::Draw()
