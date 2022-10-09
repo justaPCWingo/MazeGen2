@@ -17,6 +17,7 @@
 #endif
 #include <GL/glew.h>
 #include<GL/gl.h>
+#include<cstdio>
 #endif
 
 inline void GLPrintErr(const char* name, const char* file, const int line)
@@ -53,14 +54,21 @@ inline void GLPrintErr(const char* name, const char* file, const int line)
     };
     
     if(print)
+    {
         printf("GLError[%s,%i]: %s: %s",file,line,name,outStr);
         //cerr<<"GLError["<<file<<':'<<line<<"]: "<<name<<": "<<outStr<<endl;
+#ifdef ASSERT_GL_GO_NUCLEAR
+        exit(1);
+#endif
+    }
 }
 
 #if defined(DEBUG) || defined(_DEBUG) || defined(ASSERT_GL_ERR)
     #define ASSERT_GL( x ) GLPrintErr( x, __FILE__,__LINE__)
+    #define ASSERT_GL_WRAP( x ) x; GLPrintErr("\""#x"\"",__FILE__,__LINE__)
 #else
 #define ASSERT_GL( x )
+#define ASSERT_GL_WRAP( x ) x
 #endif
 
 #endif

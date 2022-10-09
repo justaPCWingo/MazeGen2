@@ -6,13 +6,14 @@
 //  Copyright © 2017 Wingo. All rights reserved.
 //
 
+// this pragma is specific to windows build, and should have no effect on others.
 #pragma unmanaged
 
 #include "VisMgr.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "GLErrStream.hpp"
+#include "GLErrStream.h"
 #include<string>
 #include<sstream>
 #include<iomanip>
@@ -24,8 +25,6 @@
 #include <Windows.h>
 #endif
 #include <GL/glew.h>
-#include <gl/GL.h>
-#include <gl/GLU.h>
 #endif
 
 #define HIGH_DIM 512
@@ -64,16 +63,16 @@ struct MazeCellVert {
 };
 
 VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint height)
-:_wallVerts(nullptr)
+:_glowIntensity(0.25)
+,_pathTime(0.0f)
+,_wallVerts(nullptr)
 ,_pathVerts(nullptr)
 ,_pathVertsCount(0)
 ,_pathBuffSize(0)
-,_pathTime(0.0f)
 ,_vpX(x)
 ,_vpY(y)
 ,_vpWidth(width)
 ,_vpHeight(height)
-,_glowIntensity(0.25)
 {
     _shdMgr=ShaderMgr(shadDir);
     
@@ -90,6 +89,7 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
     
     //set translate column to offset
 #define MDL_OFFS -8.0
+    _mdlMat=glm::mat4(1.0);
     _mdlMat[3]=glm::vec4(MDL_OFFS,MDL_OFFS,MDL_OFFS,1.0);
     
     for(unsigned int i=0; i<VAO_COUNT;++i)
@@ -115,8 +115,7 @@ VisMgr::VisMgr(const std::string & shadDir,GLint x,GLint y,GLint width,GLint hei
 void VisMgr::InitForOpenGL()
 {
     
-    glGenVertexArrays( VAO_COUNT, _vaos );
-    ASSERT_GL("Post VAO Generation");
+    ASSERT_GL_WRAP(glGenVertexArrays( VAO_COUNT, _vaos ));
     //load shaders
     //_shdMgr.LoadShaderProgramSet("passthru");
     _wallProg=_shdMgr.LoadShaderProgramSet("wall");
@@ -155,6 +154,9 @@ void VisMgr::Draw()
     else
         _mvp=_actProj*_mdlMat;
     
+    GLint oldFBO;
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING,&oldFBO);
+
     // Drawing code here.
     ASSERT_GL("BASE DRAW START");
     glBindFramebuffer(GL_FRAMEBUFFER, _compFBO);
@@ -205,7 +207,7 @@ void VisMgr::Draw()
     glViewport(0, 0, 1024, 1024);
     DrawCombine(_textures1);
     
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, oldFBO);
     //draw to screen
     glViewport(_vpX, _vpY, _vpWidth, _vpHeight);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
